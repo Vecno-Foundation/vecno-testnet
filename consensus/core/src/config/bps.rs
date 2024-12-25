@@ -137,13 +137,13 @@ impl<const BPS: u64> Bps<BPS> {
     /// This number is calculated as follows:
     ///
     /// - We define a year as 365.25 days
-    /// - Two months in seconds = 365.25 / 6 * 24 * 60 * 60 = 5259600
+    /// - One month in seconds = 365.25 / 6 * 24 * 60 * 60 = 2629800
     pub const fn deflationary_phase_daa_score() -> u64 {
-        BPS * (5259600)
+        BPS * (2629800)
     }
 
     pub const fn pre_deflationary_phase_base_subsidy() -> u64 {
-        200000000 / BPS
+        400000000 / BPS
     }
 }
 

@@ -247,8 +247,8 @@ impl CoinbaseManager {
     These values apply to 1 block per second.
 */
 #[rustfmt::skip]
-const SUBSIDY_BY_MONTH_TABLE: [u64; 663] = [
-	200000000, 194306388, 188774862, 183400808, 178179743, 173107312, 168179283, 163391545, 158740105, 154221082, 149830707, 145565318, 141421356, 137395364, 133483985, 129683955, 125992104, 122405354, 118920711, 115535269, 112246204, 109050773, 105946309, 102930223, 100000000,
+const SUBSIDY_BY_MONTH_TABLE: [u64; 662] = [
+	194306388, 188774862, 183400808, 178179743, 173107312, 168179283, 163391545, 158740105, 154221082, 149830707, 145565318, 141421356, 137395364, 133483985, 129683955, 125992104, 122405354, 118920711, 115535269, 112246204, 109050773, 105946309, 102930223, 100000000,
     97153194, 94387431, 91700404, 89089871, 86553656, 84089641, 81695772, 79370052, 77110541, 74915353, 72782659, 70710678, 68697682, 66741992, 64841977, 62996052, 61202677, 59460355, 57767634, 56123102, 54525386, 52973154, 51465111, 50000000, 48576597,
     47193715, 45850202, 44544935, 43276828, 42044820, 40847886, 39685026, 38555270, 37457676, 36391329, 35355339, 34348841, 33370996, 32420988, 31498026, 30601338, 29730177, 28883817, 28061551, 27262693, 26486577, 25732555, 25000000, 24288298, 23596857,
     22925101, 22272467, 21638414, 21022410, 20423943, 19842513, 19277635, 18728838, 18195664, 17677669, 17174420, 16685498, 16210494, 15749013, 15300669, 14865088, 14441908, 14030775, 13631346, 13243288, 12866277, 12500000, 12144149, 11798428, 11462550,
@@ -333,7 +333,7 @@ mod tests {
 
     #[test]
     fn subsidy_test() {
-        const PRE_DEFLATIONARY_PHASE_BASE_SUBSIDY: u64 = 200000000;
+        const PRE_DEFLATIONARY_PHASE_BASE_SUBSIDY: u64 = 400000000;
         const DEFLATIONARY_PHASE_INITIAL_SUBSIDY: u64 = 194306380;
         const SECONDS_PER_MONTH: u64 = 2629800;
         const SECONDS_PER_HALVING: u64 = SECONDS_PER_MONTH * 24;
@@ -413,7 +413,7 @@ mod tests {
         let extra_data = [2u8, 3];
         let data = CoinbaseData {
             blue_score: 56,
-            subsidy: 200000000,
+            subsidy: 400000000,
             miner_data: MinerData {
                 script_public_key: ScriptPublicKey::new(0, ScriptVec::from_slice(&script_data)),
                 extra_data: &extra_data as &[u8],
@@ -457,7 +457,7 @@ mod tests {
         let extra_data = [2u8, 3, 23, 98];
         let data = CoinbaseData {
             blue_score: 56345,
-            subsidy: 200000000,
+            subsidy: 400000000,
             miner_data: MinerData {
                 script_public_key: ScriptPublicKey::new(0, ScriptVec::from_slice(&script_data)),
                 extra_data: &extra_data,
@@ -493,6 +493,6 @@ mod tests {
 
     /// Return a CoinbaseManager with legacy golang 1 BPS properties
     fn create_legacy_manager() -> CoinbaseManager {
-        CoinbaseManager::new(150, 204, 5259600, 200000000, 1000)
+        CoinbaseManager::new(150, 204, 2629800, 400000000, 1000)
     }
 }

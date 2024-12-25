@@ -379,9 +379,9 @@ pub const MAINNET_PARAMS: Params = Params {
     // deflationary_phase_daa_score is the DAA score after which the pre-deflationary period
     // switches to the deflationary period. This number is calculated as follows:
     // We define a year as 365.25 days
-    // Two months in seconds = 365.25 / 4 * 24 * 60 * 60 = 5259600
-    deflationary_phase_daa_score: 5259600,
-    pre_deflationary_phase_base_subsidy: 200000000, // 2 VE per block before deflationary period
+    // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
+    deflationary_phase_daa_score: 2629800,
+    pre_deflationary_phase_base_subsidy: 400000000, // 2 VE per block before deflationary period
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 225,
@@ -435,9 +435,9 @@ pub const TESTNET_PARAMS: Params = Params {
     // deflationary_phase_daa_score is the DAA score after which the pre-deflationary period
     // switches to the deflationary period. This number is calculated as follows:
     // We define a year as 365.25 days
-    // Two months in seconds = 365.25 / 4 * 24 * 60 * 60 = 5259600
-    deflationary_phase_daa_score: 5259600,
-    pre_deflationary_phase_base_subsidy: 200000000,  // 4 VE per block before deflationary period begins
+    // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
+    deflationary_phase_daa_score: 2629800,
+    pre_deflationary_phase_base_subsidy: 400000000,  // 4 VE per block before deflationary period begins
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,
@@ -548,9 +548,9 @@ pub const DEVNET_PARAMS: Params = Params {
     // deflationary_phase_daa_score is the DAA score after which the pre-deflationary period
     // switches to the deflationary period. This number is calculated as follows:
     // We define a year as 365.25 days
-    // Two months in seconds = 365.25 / 4 * 24 * 60 * 60 = 5259600
-    deflationary_phase_daa_score: 5259600,
-    pre_deflationary_phase_base_subsidy: 200000000,
+    // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
+    deflationary_phase_daa_score: 2629800,
+    pre_deflationary_phase_base_subsidy: 400000000,
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,
