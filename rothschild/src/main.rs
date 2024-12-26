@@ -4,7 +4,7 @@ use clap::{Arg, ArgAction, Command};
 use itertools::Itertools;
 use vecno_addresses::{Address, Prefix, Version};
 use vecno_consensus_core::{
-    config::params::{TESTNET11_PARAMS, TESTNET_PARAMS},
+    config::params::{TESTNET_PARAMS},
     constants::{SOMPI_PER_VECNO, TX_VERSION},
     sign::sign,
     subnets::SUBNETWORK_ID_NATIVE,
@@ -210,7 +210,6 @@ async fn main() {
 
     let info = rpc_client.get_block_dag_info().await.unwrap();
     let coinbase_maturity = match info.network.suffix {
-        Some(11) => TESTNET11_PARAMS.coinbase_maturity,
         None | Some(_) => TESTNET_PARAMS.coinbase_maturity,
     };
     info!(

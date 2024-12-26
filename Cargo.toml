@@ -18,7 +18,6 @@ members = [
     "consensus/pow",
     "consensus/wasm",
     "vecnod",
-    "simpa",
     "wasm",
     "wasm/core",
     "math",

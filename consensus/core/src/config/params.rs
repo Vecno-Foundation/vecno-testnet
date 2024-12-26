@@ -331,10 +331,7 @@ impl From<NetworkId> for Params {
 }
 
 pub const MAINNET_PARAMS: Params = Params {
-    dns_seeders: &[
-        // This DNS seeder is run by 
-        "",
-    ],
+    dns_seeders: &[],
     net: NetworkId::new(NetworkType::Mainnet),
     genesis: GENESIS,
     ghostdag_k: LEGACY_DEFAULT_GHOSTDAG_K,

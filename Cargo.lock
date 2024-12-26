@@ -3971,36 +3971,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "simpa"
-version = "0.15.4"
-dependencies = [
- "async-channel 2.3.1",
- "cfg-if 1.0.0",
- "clap 4.5.19",
- "dhat",
- "futures",
- "futures-util",
- "indexmap 2.6.0",
- "itertools 0.13.0",
- "log",
- "num_cpus",
- "rand",
- "rand_distr",
- "rayon",
- "secp256k1",
- "tokio",
- "vecno-alloc",
- "vecno-consensus",
- "vecno-consensus-core",
- "vecno-consensus-notify",
- "vecno-core",
- "vecno-database",
- "vecno-hashes",
- "vecno-perf-monitor",
- "vecno-utils",
-]
-
-[[package]]
 name = "slab"
 version = "0.4.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
