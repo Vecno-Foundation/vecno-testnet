@@ -139,11 +139,11 @@ impl<const BPS: u64> Bps<BPS> {
     /// - We define a year as 365.25 days
     /// - One month in seconds = 365.25 / 6 * 24 * 60 * 60 = 2629800
     pub const fn premine_daa_score() -> u64 {
-        BPS * (0)
+        BPS * (1)
     }
 
     pub const fn premine_phase_base_subsidy() -> u64 {
-        1500000000000000 / BPS
+        750000000000000 / BPS
     }
 }
 

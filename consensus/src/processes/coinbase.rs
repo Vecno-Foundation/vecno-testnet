@@ -333,7 +333,7 @@ mod tests {
 
     #[test]
     fn subsidy_test() {
-        const PREMINE_PHASE_BASE_SUBSIDY: u64 = 1500000000000000;
+        const PREMINE_PHASE_BASE_SUBSIDY: u64 = 750000000000000;
         const DEFLATIONARY_PHASE_INITIAL_SUBSIDY: u64 = 200000000;
         const SECONDS_PER_MONTH: u64 = 2629800;
         const SECONDS_PER_HALVING: u64 = SECONDS_PER_MONTH * 24;
