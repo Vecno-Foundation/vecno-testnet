@@ -143,7 +143,7 @@ impl<const BPS: u64> Bps<BPS> {
     }
 
     pub const fn premine_phase_base_subsidy() -> u64 {
-        750000000000000 / BPS
+        1500000000000000 / BPS
     }
 }
 

@@ -378,7 +378,7 @@ pub const MAINNET_PARAMS: Params = Params {
     // We define a year as 365.25 days
     // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
     premine_daa_score: 1,
-    premine_phase_base_subsidy: 750000000000000, // 15,000,000 premine
+    premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 225,
@@ -434,7 +434,7 @@ pub const TESTNET_PARAMS: Params = Params {
     // We define a year as 365.25 days
     // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
     premine_daa_score: 1,
-    premine_phase_base_subsidy: 750000000000000,  // 15,000,000 premine
+    premine_phase_base_subsidy: 1500000000000000,  // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,
@@ -547,7 +547,7 @@ pub const DEVNET_PARAMS: Params = Params {
     // We define a year as 365.25 days
     // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
     premine_daa_score: 1,
-    premine_phase_base_subsidy: 750000000000000, // 15,000,000 premine
+    premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,
