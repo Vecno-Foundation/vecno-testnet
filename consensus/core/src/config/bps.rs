@@ -132,14 +132,14 @@ impl<const BPS: u64> Bps<BPS> {
         BPS * LEGACY_COINBASE_MATURITY
     }
 
-    /// premine_daa_score DAA score after which the premine period switches to the deflationary period.
+    /// premine_daa_score = DAA score (first mined block) after which the premine period switches to the deflationary period.
     ///
     /// This number is calculated as follows:
     ///
     /// - We define a year as 365.25 days
     /// - One month in seconds = 365.25 / 6 * 24 * 60 * 60 = 2629800
     pub const fn premine_daa_score() -> u64 {
-        BPS * (1)
+        BPS * (0)
     }
 
     pub const fn premine_phase_base_subsidy() -> u64 {
