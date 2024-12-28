@@ -21,15 +21,15 @@ const MIN_PAYLOAD_LENGTH: usize =
 // SECONDS_PER_MONTH = 30.4375 * 24 * 60 * 60
 const SECONDS_PER_MONTH: u64 = 2629800;
 
-pub const SUBSIDY_BY_MONTH_TABLE_SIZE: usize = 426;
+pub const SUBSIDY_BY_MONTH_TABLE_SIZE: usize = 663;
 pub type SubsidyByMonthTable = [u64; SUBSIDY_BY_MONTH_TABLE_SIZE];
 
 #[derive(Clone)]
 pub struct CoinbaseManager {
     coinbase_payload_script_public_key_max_len: u8,
     max_coinbase_payload_len: usize,
-    deflationary_phase_daa_score: u64,
-    pre_deflationary_phase_base_subsidy: u64,
+    premine_daa_score: u64,
+    premine_phase_base_subsidy: u64,
     target_time_per_block: u64,
 
     /// Precomputed number of blocks per month
@@ -61,8 +61,8 @@ impl CoinbaseManager {
     pub fn new(
         coinbase_payload_script_public_key_max_len: u8,
         max_coinbase_payload_len: usize,
-        deflationary_phase_daa_score: u64,
-        pre_deflationary_phase_base_subsidy: u64,
+        premine_daa_score: u64,
+        premine_phase_base_subsidy: u64,
         target_time_per_block: u64,
     ) -> Self {
         assert!(1000 % target_time_per_block == 0);
@@ -76,8 +76,8 @@ impl CoinbaseManager {
         Self {
             coinbase_payload_script_public_key_max_len,
             max_coinbase_payload_len,
-            deflationary_phase_daa_score,
-            pre_deflationary_phase_base_subsidy,
+            premine_daa_score,
+            premine_phase_base_subsidy,
             target_time_per_block,
             blocks_per_month,
             subsidy_by_month_table,
@@ -210,12 +210,12 @@ impl CoinbaseManager {
     }
 
     pub fn calc_block_subsidy(&self, daa_score: u64) -> u64 {
-        if daa_score < self.deflationary_phase_daa_score {
-            return self.pre_deflationary_phase_base_subsidy;
+        if daa_score < self.premine_daa_score {
+            return self.premine_phase_base_subsidy;
         }
 
         let months_since_deflationary_phase_started =
-            ((daa_score - self.deflationary_phase_daa_score) / self.blocks_per_month) as usize;
+            ((daa_score - self.premine_daa_score) / self.blocks_per_month) as usize;
         if months_since_deflationary_phase_started >= self.subsidy_by_month_table.len() {
             *(self.subsidy_by_month_table).last().unwrap()
         } else {
@@ -225,12 +225,12 @@ impl CoinbaseManager {
 
     #[cfg(test)]
     pub fn legacy_calc_block_subsidy(&self, daa_score: u64) -> u64 {
-        if daa_score < self.deflationary_phase_daa_score {
-            return self.pre_deflationary_phase_base_subsidy;
+        if daa_score < self.premine_daa_score {
+            return self.premine_phase_base_subsidy;
         }
 
         // Note that this calculation implicitly assumes that block per second = 1 (by assuming daa score diff is in second units).
-        let months_since_deflationary_phase_started = (daa_score - self.deflationary_phase_daa_score) / SECONDS_PER_MONTH;
+        let months_since_deflationary_phase_started = (daa_score - self.premine_daa_score) / SECONDS_PER_MONTH;
         assert!(months_since_deflationary_phase_started <= usize::MAX as u64);
         let months_since_deflationary_phase_started: usize = months_since_deflationary_phase_started as usize;
         if months_since_deflationary_phase_started >= SUBSIDY_BY_MONTH_TABLE.len() {
@@ -247,8 +247,8 @@ impl CoinbaseManager {
     These values apply to 1 block per second.
 */
 #[rustfmt::skip]
-const SUBSIDY_BY_MONTH_TABLE: [u64; 662] = [
-	194306388, 188774862, 183400808, 178179743, 173107312, 168179283, 163391545, 158740105, 154221082, 149830707, 145565318, 141421356, 137395364, 133483985, 129683955, 125992104, 122405354, 118920711, 115535269, 112246204, 109050773, 105946309, 102930223, 100000000,
+const SUBSIDY_BY_MONTH_TABLE: [u64; 663] = [
+	200000000, 194306388, 188774862, 183400808, 178179743, 173107312, 168179283, 163391545, 158740105, 154221082, 149830707, 145565318, 141421356, 137395364, 133483985, 129683955, 125992104, 122405354, 118920711, 115535269, 112246204, 109050773, 105946309, 102930223, 100000000,
     97153194, 94387431, 91700404, 89089871, 86553656, 84089641, 81695772, 79370052, 77110541, 74915353, 72782659, 70710678, 68697682, 66741992, 64841977, 62996052, 61202677, 59460355, 57767634, 56123102, 54525386, 52973154, 51465111, 50000000, 48576597,
     47193715, 45850202, 44544935, 43276828, 42044820, 40847886, 39685026, 38555270, 37457676, 36391329, 35355339, 34348841, 33370996, 32420988, 31498026, 30601338, 29730177, 28883817, 28061551, 27262693, 26486577, 25732555, 25000000, 24288298, 23596857,
     22925101, 22272467, 21638414, 21022410, 20423943, 19842513, 19277635, 18728838, 18195664, 17677669, 17174420, 16685498, 16210494, 15749013, 15300669, 14865088, 14441908, 14030775, 13631346, 13243288, 12866277, 12500000, 12144149, 11798428, 11462550,
@@ -293,7 +293,7 @@ mod tests {
         const SECONDS_PER_MONTH: u64 = 2629800;
 
         let legacy_cbm = create_legacy_manager();
-        let pre_deflationary_rewards = legacy_cbm.pre_deflationary_phase_base_subsidy * legacy_cbm.deflationary_phase_daa_score;
+        let pre_deflationary_rewards = legacy_cbm.premine_phase_base_subsidy * legacy_cbm.premine_daa_score;
         let total_rewards: u64 = pre_deflationary_rewards + SUBSIDY_BY_MONTH_TABLE.iter().map(|x| x * SECONDS_PER_MONTH).sum::<u64>();
         let testnet_11_bps = TESTNET11_PARAMS.bps();
         let total_high_bps_rewards_rounded_up: u64 = pre_deflationary_rewards
@@ -333,8 +333,8 @@ mod tests {
 
     #[test]
     fn subsidy_test() {
-        const PRE_DEFLATIONARY_PHASE_BASE_SUBSIDY: u64 = 400000000;
-        const DEFLATIONARY_PHASE_INITIAL_SUBSIDY: u64 = 194306380;
+        const PREMINE_PHASE_BASE_SUBSIDY: u64 = 1500000000000000;
+        const DEFLATIONARY_PHASE_INITIAL_SUBSIDY: u64 = 200000000;
         const SECONDS_PER_MONTH: u64 = 2629800;
         const SECONDS_PER_HALVING: u64 = SECONDS_PER_MONTH * 24;
 
@@ -342,7 +342,7 @@ mod tests {
             let params = &network_id.into();
             let cbm = create_manager(params);
 
-            let pre_deflationary_phase_base_subsidy = PRE_DEFLATIONARY_PHASE_BASE_SUBSIDY / params.bps();
+            let premine_phase_base_subsidy = PREMINE_PHASE_BASE_SUBSIDY / params.bps();
             let deflationary_phase_initial_subsidy = DEFLATIONARY_PHASE_INITIAL_SUBSIDY / params.bps();
             let blocks_per_halving = SECONDS_PER_HALVING * params.bps();
 
@@ -353,45 +353,45 @@ mod tests {
             }
 
             let tests = vec![
-                Test { name: "first mined block", daa_score: 1, expected: pre_deflationary_phase_base_subsidy },
+                Test { name: "first mined block", daa_score: 1, expected: premine_phase_base_subsidy },
                 Test {
                     name: "before deflationary phase",
-                    daa_score: params.deflationary_phase_daa_score - 1,
-                    expected: pre_deflationary_phase_base_subsidy,
+                    daa_score: params.premine_daa_score - 1,
+                    expected: premine_phase_base_subsidy,
                 },
                 Test {
                     name: "start of deflationary phase",
-                    daa_score: params.deflationary_phase_daa_score,
+                    daa_score: params.premine_daa_score,
                     expected: deflationary_phase_initial_subsidy,
                 },
                 Test {
                     name: "after one halving",
-                    daa_score: params.deflationary_phase_daa_score + blocks_per_halving,
+                    daa_score: params.premine_daa_score + blocks_per_halving,
                     expected: deflationary_phase_initial_subsidy / 2,
                 },
                 Test {
                     name: "after 2 halvings",
-                    daa_score: params.deflationary_phase_daa_score + 2 * blocks_per_halving,
+                    daa_score: params.premine_daa_score + 2 * blocks_per_halving,
                     expected: deflationary_phase_initial_subsidy / 4,
                 },
                 Test {
                     name: "after 5 halvings",
-                    daa_score: params.deflationary_phase_daa_score + 5 * blocks_per_halving,
+                    daa_score: params.premine_daa_score + 5 * blocks_per_halving,
                     expected: deflationary_phase_initial_subsidy / 32,
                 },
                 Test {
                     name: "after 32 halvings",
-                    daa_score: params.deflationary_phase_daa_score + 32 * blocks_per_halving,
+                    daa_score: params.premine_daa_score + 32 * blocks_per_halving,
                     expected: (DEFLATIONARY_PHASE_INITIAL_SUBSIDY / 2_u64.pow(32)).div_ceil(cbm.bps()),
                 },
                 Test {
                     name: "just before subsidy depleted",
-                    daa_score: params.deflationary_phase_daa_score + 35 * blocks_per_halving,
+                    daa_score: params.premine_daa_score + 35 * blocks_per_halving,
                     expected: 1,
                 },
                 Test {
                     name: "after subsidy depleted",
-                    daa_score: params.deflationary_phase_daa_score + 36 * blocks_per_halving,
+                    daa_score: params.premine_daa_score + 36 * blocks_per_halving,
                     expected: 0,
                 },
             ];
@@ -485,14 +485,14 @@ mod tests {
         CoinbaseManager::new(
             params.coinbase_payload_script_public_key_max_len,
             params.max_coinbase_payload_len,
-            params.deflationary_phase_daa_score,
-            params.pre_deflationary_phase_base_subsidy,
+            params.premine_daa_score,
+            params.premine_phase_base_subsidy,
             params.target_time_per_block,
         )
     }
 
     /// Return a CoinbaseManager with legacy golang 1 BPS properties
     fn create_legacy_manager() -> CoinbaseManager {
-        CoinbaseManager::new(150, 204, 2629800, 400000000, 1000)
+        CoinbaseManager::new(150, 204, 1, 400000000, 1000)
     }
 }

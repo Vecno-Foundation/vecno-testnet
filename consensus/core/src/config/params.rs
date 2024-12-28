@@ -123,9 +123,9 @@ pub struct Params {
     pub kip10_activation: ForkActivation,
 
     /// DAA score after which the pre-deflationary period switches to the deflationary period
-    pub deflationary_phase_daa_score: u64,
+    pub premine_daa_score: u64,
 
-    pub pre_deflationary_phase_base_subsidy: u64,
+    pub premine_phase_base_subsidy: u64,
     pub coinbase_maturity: u64,
     pub skip_proof_of_work: bool,
     pub max_block_level: BlockLevel,
@@ -373,12 +373,12 @@ pub const MAINNET_PARAMS: Params = Params {
     storage_mass_activation: ForkActivation::never(),
     kip10_activation: ForkActivation::never(),
 
-    // deflationary_phase_daa_score is the DAA score after which the pre-deflationary period
+    // premine_daa_score is the DAA score after which the pre-deflationary period
     // switches to the deflationary period. This number is calculated as follows:
     // We define a year as 365.25 days
     // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
-    deflationary_phase_daa_score: 2629800,
-    pre_deflationary_phase_base_subsidy: 400000000, // 2 VE per block before deflationary period
+    premine_daa_score: 1,
+    premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 225,
@@ -429,12 +429,12 @@ pub const TESTNET_PARAMS: Params = Params {
     storage_mass_parameter: STORAGE_MASS_PARAMETER,
     storage_mass_activation: ForkActivation::never(),
     kip10_activation: ForkActivation::never(),
-    // deflationary_phase_daa_score is the DAA score after which the pre-deflationary period
+    // premine_daa_score is the DAA score after which the pre-deflationary period
     // switches to the deflationary period. This number is calculated as follows:
     // We define a year as 365.25 days
     // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
-    deflationary_phase_daa_score: 2629800,
-    pre_deflationary_phase_base_subsidy: 400000000,  // 4 VE per block before deflationary period begins
+    premine_daa_score: 1,
+    premine_phase_base_subsidy: 1500000000000000,  // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,
@@ -472,8 +472,8 @@ pub const SIMNET_PARAMS: Params = Params {
     finality_depth: Testnet11Bps::finality_depth(),
     pruning_depth: Testnet11Bps::pruning_depth(),
     pruning_proof_m: Testnet11Bps::pruning_proof_m(),
-    deflationary_phase_daa_score: Testnet11Bps::deflationary_phase_daa_score(),
-    pre_deflationary_phase_base_subsidy: Testnet11Bps::pre_deflationary_phase_base_subsidy(),
+    premine_daa_score: Testnet11Bps::premine_daa_score(),
+    premine_phase_base_subsidy: Testnet11Bps::premine_phase_base_subsidy(),
     coinbase_maturity: Testnet11Bps::coinbase_maturity(),
 
     coinbase_payload_script_public_key_max_len: 150,
@@ -542,12 +542,12 @@ pub const DEVNET_PARAMS: Params = Params {
     storage_mass_activation: ForkActivation::never(),
     kip10_activation: ForkActivation::never(),
 
-    // deflationary_phase_daa_score is the DAA score after which the pre-deflationary period
+    // premine_daa_score is the block after which the pre-deflationary period
     // switches to the deflationary period. This number is calculated as follows:
     // We define a year as 365.25 days
     // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
-    deflationary_phase_daa_score: 2629800,
-    pre_deflationary_phase_base_subsidy: 400000000,
+    premine_daa_score: 1,
+    premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,
