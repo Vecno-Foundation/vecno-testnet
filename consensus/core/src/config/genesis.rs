@@ -76,7 +76,7 @@ pub const GENESIS: GenesisBlock = GenesisBlock {
     ]),
     utxo_commitment: EMPTY_MUHASH,
     timestamp: 0x19409ce1deb,
-    bits: 0x1e7fffff,
+    bits: 0x1e07fff0, // Bits with ~testnet-like difficulty for slow mainnet start
     nonce: 0x0000d885,
     daa_score: 0, // Checkpoint DAA score
     #[rustfmt::skip]
