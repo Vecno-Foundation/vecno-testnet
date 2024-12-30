@@ -30,7 +30,7 @@ impl ConsensusMonitor {
     pub async fn worker(self: &Arc<ConsensusMonitor>) {
         let mut last_snapshot = self.counters.snapshot();
         let mut last_log_time = Instant::now();
-        let snapshot_interval = 10;
+        let snapshot_interval = 100;
         loop {
             if let TickReason::Shutdown = self.tick_service.tick(Duration::from_secs(snapshot_interval)).await {
                 // Let the system print final logs before exiting
