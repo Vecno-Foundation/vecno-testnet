@@ -364,6 +364,8 @@ pub const MAINNET_PARAMS: Params = Params {
     max_signature_script_len: 1_000_000_000,
     max_script_public_key_len: 1_000_000_000,
 
+
+    
     mass_per_tx_byte: 1,
     mass_per_script_pub_key_byte: 10,
     mass_per_sig_op: 1000,

@@ -550,7 +550,7 @@ impl SpkEncoding for ScriptPublicKey {
 mod tests {
     use std::iter::once;
 
-    use crate::opcodes::codes::{OpBlake2b, OpCheckSig, OpData1, OpData2, OpData32, OpDup, OpEqual, OpPushData1, OpTrue};
+    use crate::opcodes::codes::{OpBlake3, OpCheckSig, OpData1, OpData2, OpData32, OpDup, OpEqual, OpPushData1, OpTrue};
 
     use super::*;
     use vecno_consensus_core::hashing::sighash::SigHashReusedValuesUnsync;
@@ -869,7 +869,7 @@ mod tests {
 
         let script_hash = hex::decode("433ec2ac1ffa1b7b7d027f564529c57197f9ae88").unwrap();
         let prev_script_pubkey_p2sh_script =
-            [OpBlake2b, OpData32].iter().copied().chain(script_hash.iter().copied()).chain(once(OpEqual));
+            [OpBlake3, OpData32].iter().copied().chain(script_hash.iter().copied()).chain(once(OpEqual));
         let prev_script_pubkey_p2sh = ScriptPublicKey::new(0, SmallVec::from_iter(prev_script_pubkey_p2sh_script));
 
         let tests = [

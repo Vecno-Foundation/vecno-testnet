@@ -1,5 +1,5 @@
 
-<h1>Vecno On Rust</h1>
+<h1>Vecno Testnet</h1>
 
 Welcome to the Rust-based implementation of the Vecno full-node and its ancillary libraries.
 
