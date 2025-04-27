@@ -639,7 +639,7 @@ impl ConsensusApi for Consensus {
             // Source: https://github.com/kaspagang/kaspad-py-explorer/blob/main/src/tx_timestamp_estimation.ipynb
             // For context see also: https://github.com/kaspagang/vecnod-py-explorer/blob/main/src/genesis_proof.ipynb
             const POINTS: &[DaaScoreTimestamp] = &[
-                DaaScoreTimestamp { daa_score: 0, timestamp: 1745323820 },
+                DaaScoreTimestamp { daa_score: 0, timestamp: 1745752850 },
             ];
             sample_headers = Vec::<DaaScoreTimestamp>::with_capacity(prealloc_len + POINTS.len());
             sample_headers.extend_from_slice(POINTS);
