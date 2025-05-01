@@ -64,7 +64,6 @@ impl From<(&Header, &'static [u8])> for GenesisBlock {
 }
 
 /// The genesis block of the block-DAG which serves as the public transaction ledger for the main network.
-Genesis block has been successfully mined!
 pub const GENESIS: GenesisBlock = GenesisBlock {
     hash: Hash::from_bytes([
         0x00, 0x00, 0x00, 0x26, 0xdf, 0xde, 0x8a, 0x83, 0x71, 0x45, 0x6d, 0x44, 0xd4, 0xe0, 0xd1, 0x2c,
