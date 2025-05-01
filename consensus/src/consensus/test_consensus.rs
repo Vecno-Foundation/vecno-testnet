@@ -1,4 +1,5 @@
 use async_channel::Sender;
+use parking_lot::RwLock;
 use vecno_consensus_core::coinbase::MinerData;
 use vecno_consensus_core::tx::ScriptPublicKey;
 use vecno_consensus_core::{
@@ -11,7 +12,6 @@ use vecno_core::{core::Core, service::Service};
 use vecno_database::utils::DbLifetime;
 use vecno_hashes::Hash;
 use vecno_notify::subscription::context::SubscriptionContext;
-use parking_lot::RwLock;
 
 use super::services::{DbDagTraversalManager, DbGhostdagManager, DbWindowManager};
 use super::Consensus;
@@ -32,10 +32,10 @@ use crate::{
     pipeline::{body_processor::BlockBodyProcessor, virtual_processor::VirtualStateProcessor, ProcessingCounters},
     test_helpers::header_from_precomputed_hash,
 };
-use vecno_database::create_temp_db;
-use vecno_database::prelude::ConnBuilder;
 use std::future::Future;
 use std::{sync::Arc, thread::JoinHandle};
+use vecno_database::create_temp_db;
+use vecno_database::prelude::ConnBuilder;
 
 pub struct TestConsensus {
     params: Params,

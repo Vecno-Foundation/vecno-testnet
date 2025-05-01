@@ -19,6 +19,7 @@
 //! The SubmitBlockResponse is a notable exception to this general rule.
 
 use crate::protowire::{self, submit_block_response_message::RejectReason};
+use std::str::FromStr;
 use vecno_consensus_core::network::NetworkId;
 use vecno_core::debug;
 use vecno_notify::subscription::Command;
@@ -27,7 +28,6 @@ use vecno_rpc_core::{
     SubmitBlockRejectReason, SubmitBlockReport,
 };
 use vecno_utils::hex::*;
-use std::str::FromStr;
 
 macro_rules! from {
     // Response capture

@@ -9,9 +9,6 @@
 mod script_public_key;
 
 use borsh::{BorshDeserialize, BorshSerialize};
-use vecno_utils::hex::ToHex;
-use vecno_utils::mem_size::MemSizeEstimator;
-use vecno_utils::{serde_bytes, serde_bytes_fixed_ref};
 pub use script_public_key::{
     scriptvec, ScriptPublicKey, ScriptPublicKeyT, ScriptPublicKeyVersion, ScriptPublicKeys, ScriptVec, SCRIPT_VECTOR_SIZE,
 };
@@ -24,6 +21,9 @@ use std::{
     ops::Range,
     str::{self},
 };
+use vecno_utils::hex::ToHex;
+use vecno_utils::mem_size::MemSizeEstimator;
+use vecno_utils::{serde_bytes, serde_bytes_fixed_ref};
 use wasm_bindgen::prelude::*;
 
 use crate::{

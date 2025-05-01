@@ -1,7 +1,7 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use serde::{Deserialize, Serialize};
 use vecno_consensus_core::{header::Header, BlueWorkType};
 use vecno_hashes::Hash;
-use serde::{Deserialize, Serialize};
 use workflow_serializer::prelude::*;
 
 /// Raw Rpc header type - without a cached header hash.

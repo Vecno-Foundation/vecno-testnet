@@ -10,11 +10,11 @@ use vecno_hashes::Hash;
 
 use itertools::EitherOrBoth::{Both, Left, Right};
 use itertools::Itertools;
-use vecno_utils::mem_size::MemSizeEstimator;
 use rocksdb::WriteBatch;
 use serde::{Deserialize, Serialize};
 use std::iter::once;
 use std::{cell::RefCell, sync::Arc};
+use vecno_utils::mem_size::MemSizeEstimator;
 
 /// Re-export for convenience
 pub use vecno_consensus_core::{HashKTypeMap, KType};

@@ -1,8 +1,8 @@
 use crate::protowire;
 use crate::{from, try_from};
+use std::str::FromStr;
 use vecno_consensus_core::header::Header;
 use vecno_rpc_core::{FromRpcHex, RpcError, RpcHash, RpcResult, ToRpcHex};
-use std::str::FromStr;
 
 // ----------------------------------------------------------------------------
 // rpc_core to protowire

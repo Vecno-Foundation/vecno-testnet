@@ -10,11 +10,11 @@ use crate::{
         window::WindowManager,
     },
 };
+use once_cell::unsync::Lazy;
+use std::sync::Arc;
 use vecno_consensus_core::block::Block;
 use vecno_database::prelude::StoreResultExtensions;
 use vecno_hashes::Hash;
-use once_cell::unsync::Lazy;
-use std::sync::Arc;
 
 impl BlockBodyProcessor {
     pub fn validate_body_in_context(self: &Arc<Self>, block: &Block) -> BlockProcessResult<()> {
@@ -107,10 +107,7 @@ mod tests {
 
     #[tokio::test]
     async fn validate_body_in_context_test() {
-        let config = ConfigBuilder::new(DEVNET_PARAMS)
-            .skip_proof_of_work()
-            .edit_consensus_params(|p| p.premine_daa_score = 2)
-            .build();
+        let config = ConfigBuilder::new(DEVNET_PARAMS).skip_proof_of_work().edit_consensus_params(|p| p.premine_daa_score = 2).build();
         let consensus = TestConsensus::new(&config);
         let wait_handles = consensus.init();
         let body_processor = consensus.block_body_processor();

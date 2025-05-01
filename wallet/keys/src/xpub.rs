@@ -2,8 +2,8 @@
 //! Extended public key ([`XPub`]).
 //!
 
-use vecno_bip32::{ChainCode, KeyFingerprint, Prefix};
 use std::{fmt, str::FromStr};
+use vecno_bip32::{ChainCode, KeyFingerprint, Prefix};
 
 use crate::imports::*;
 

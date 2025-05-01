@@ -61,7 +61,7 @@ members = [
 ]
 
 [workspace.package]
-rust-version = "1.82.0"
+rust-version = "1.86.0"
 version = "0.0.1"
 authors = ["Vecno developers"]
 license = "ISC"

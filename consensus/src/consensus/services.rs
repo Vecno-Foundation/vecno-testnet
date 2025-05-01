@@ -17,9 +17,9 @@ use crate::{
     },
 };
 use itertools::Itertools;
+use std::sync::{atomic::AtomicBool, Arc};
 use vecno_consensus_core::mass::MassCalculator;
 use vecno_txscript::caches::TxScriptCacheCounters;
-use std::sync::{atomic::AtomicBool, Arc};
 
 pub type DbGhostdagManager =
     GhostdagManager<DbGhostdagStore, MTRelationsService<DbRelationsStore>, MTReachabilityService<DbReachabilityStore>, DbHeadersStore>;

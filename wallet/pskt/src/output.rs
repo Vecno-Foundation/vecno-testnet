@@ -3,9 +3,9 @@
 use crate::pskt::KeySource;
 use crate::utils::combine_if_no_conflicts;
 use derive_builder::Builder;
-use vecno_consensus_core::tx::ScriptPublicKey;
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, ops::Add};
+use vecno_consensus_core::tx::ScriptPublicKey;
 
 #[derive(Builder, Default, Serialize, Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]

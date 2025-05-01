@@ -1,11 +1,11 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use serde::{Deserialize, Serialize};
 use vecno_addresses::Address;
 use vecno_consensus_core::tx::{
     ScriptPublicKey, ScriptVec, TransactionId, TransactionIndexType, TransactionInput, TransactionOutpoint, TransactionOutput,
     UtxoEntry,
 };
 use vecno_utils::{hex::ToHex, serde_bytes_fixed_ref};
-use serde::{Deserialize, Serialize};
 use workflow_serializer::prelude::*;
 
 use crate::prelude::{RpcHash, RpcScriptClass, RpcSubnetworkId};

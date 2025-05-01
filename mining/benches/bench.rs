@@ -1,16 +1,16 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use itertools::Itertools;
+use rand::{thread_rng, Rng};
+use std::{
+    collections::{hash_set::Iter, HashMap, HashSet},
+    sync::Arc,
+};
 use vecno_consensus_core::{
     subnets::SUBNETWORK_ID_NATIVE,
     tx::{Transaction, TransactionInput, TransactionOutpoint},
 };
 use vecno_hashes::{HasherBase, TransactionID};
 use vecno_mining::{model::topological_index::TopologicalIndex, FeerateTransactionKey, Frontier, Policy};
-use rand::{thread_rng, Rng};
-use std::{
-    collections::{hash_set::Iter, HashMap, HashSet},
-    sync::Arc,
-};
 
 #[derive(Default)]
 pub struct Dag<T>

@@ -3,8 +3,8 @@
 //!
 
 use crate::model::*;
-use vecno_consensus_client::*;
 use std::sync::Arc;
+use vecno_consensus_client::*;
 
 impl From<RpcUtxosByAddressesEntry> for UtxoEntry {
     fn from(entry: RpcUtxosByAddressesEntry) -> UtxoEntry {

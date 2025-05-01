@@ -1,3 +1,5 @@
+use rand::thread_rng;
+use secp256k1::Keypair;
 use vecno_addresses::{Address, Prefix, Version};
 use vecno_consensus_core::{
     hashing::{
@@ -20,8 +22,6 @@ use vecno_txscript::{
     TxScriptEngine,
 };
 use vecno_txscript_errors::TxScriptError::{EvalFalse, VerifyError};
-use rand::thread_rng;
-use secp256k1::Keypair;
 
 /// Main function to execute all Vecno transaction script scenarios.
 ///

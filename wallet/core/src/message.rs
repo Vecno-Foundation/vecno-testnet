@@ -2,8 +2,8 @@
 //! Message signing and verification functions.
 //!
 
-use vecno_hashes::{Hash, PersonalMessageSigningHash};
 use secp256k1::{Error, XOnlyPublicKey};
+use vecno_hashes::{Hash, PersonalMessageSigningHash};
 
 /// A personal message (text) that can be signed.
 #[derive(Clone)]

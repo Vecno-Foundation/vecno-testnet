@@ -5,6 +5,14 @@ use crate::converter::feerate_estimate::{FeeEstimateConverter, FeeEstimateVerbos
 use crate::converter::{consensus::ConsensusConverter, index::IndexConverter, protocol::ProtocolConverter};
 use crate::service::NetworkType::{Mainnet, Testnet};
 use async_trait::async_trait;
+use std::time::Duration;
+use std::{
+    collections::HashMap,
+    iter::once,
+    sync::{atomic::Ordering, Arc},
+    vec,
+};
+use tokio::join;
 use vecno_consensus_core::api::counters::ProcessingCounters;
 use vecno_consensus_core::errors::block::RuleError;
 use vecno_consensus_core::{
@@ -24,11 +32,12 @@ use vecno_core::time::unix_now;
 use vecno_core::{
     core::Core,
     debug,
-    vecnod_env::version,
     signals::Shutdown,
     task::service::{AsyncService, AsyncServiceError, AsyncServiceFuture},
     task::tick::TickService,
-    trace, warn,
+    trace,
+    vecnod_env::version,
+    warn,
 };
 use vecno_index_core::indexed_utxos::BalanceByScriptPublicKey;
 use vecno_index_core::{
@@ -69,14 +78,6 @@ use vecno_utils::sysinfo::SystemInfo;
 use vecno_utils::{channel::Channel, triggers::SingleTrigger};
 use vecno_utils_tower::counters::TowerConnectionCounters;
 use vecno_utxoindex::api::UtxoIndexProxy;
-use std::time::Duration;
-use std::{
-    collections::HashMap,
-    iter::once,
-    sync::{atomic::Ordering, Arc},
-    vec,
-};
-use tokio::join;
 use workflow_rpc::server::WebSocketCounters as WrpcServerCounters;
 
 /// A service implementing the Rpc API at vecno_rpc_core level.

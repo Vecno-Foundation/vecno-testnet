@@ -77,11 +77,11 @@ use crossbeam_channel::{
 use itertools::Itertools;
 use vecno_consensusmanager::{SessionLock, SessionReadGuard};
 
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use vecno_database::prelude::StoreResultExtensions;
 use vecno_hashes::Hash;
 use vecno_muhash::MuHash;
 use vecno_txscript::caches::TxScriptCacheCounters;
-use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
 use std::{
     cmp::Reverse,
@@ -638,9 +638,7 @@ impl ConsensusApi for Consensus {
             // For mainnet, we add extra data (16 pp headers) from before checkpoint genesis.
             // Source: https://github.com/kaspagang/kaspad-py-explorer/blob/main/src/tx_timestamp_estimation.ipynb
             // For context see also: https://github.com/kaspagang/vecnod-py-explorer/blob/main/src/genesis_proof.ipynb
-            const POINTS: &[DaaScoreTimestamp] = &[
-                DaaScoreTimestamp { daa_score: 0, timestamp: 1745752850 },
-            ];
+            const POINTS: &[DaaScoreTimestamp] = &[DaaScoreTimestamp { daa_score: 0, timestamp: 1745752850 }];
             sample_headers = Vec::<DaaScoreTimestamp>::with_capacity(prealloc_len + POINTS.len());
             sample_headers.extend_from_slice(POINTS);
         } else {

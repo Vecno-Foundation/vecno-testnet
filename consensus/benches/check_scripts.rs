@@ -1,4 +1,6 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion, SamplingMode};
+use rand::{thread_rng, Rng};
+use secp256k1::Keypair;
 use vecno_addresses::{Address, Prefix, Version};
 use vecno_consensus::processes::transaction_validator::tx_validation_in_utxo_context::{
     check_scripts_par_iter, check_scripts_par_iter_pool, check_scripts_sequential,
@@ -10,8 +12,6 @@ use vecno_consensus_core::tx::{MutableTransaction, Transaction, TransactionInput
 use vecno_txscript::caches::Cache;
 use vecno_txscript::pay_to_address_script;
 use vecno_utils::iter::parallelism_in_power_steps;
-use rand::{thread_rng, Rng};
-use secp256k1::Keypair;
 
 fn mock_tx_with_payload(inputs_count: usize, non_uniq_signatures: usize, payload_size: usize) -> (Transaction, Vec<UtxoEntry>) {
     let mut payload = vec![0u8; payload_size];

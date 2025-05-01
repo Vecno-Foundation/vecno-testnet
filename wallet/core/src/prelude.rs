@@ -14,8 +14,8 @@ pub use crate::settings::WalletSettings;
 pub use crate::storage::{IdT, Interface, PrvKeyDataId, PrvKeyDataInfo, TransactionId, TransactionRecord, WalletDescriptor};
 pub use crate::tx::{Fees, PaymentDestination, PaymentOutput, PaymentOutputs};
 pub use crate::utils::{
-    vecno_suffix, vecno_to_sompi, sompi_to_vecno, sompi_to_vecno_string, sompi_to_vecno_string_with_suffix, try_vecno_str_to_sompi,
-    try_vecno_str_to_sompi_i64,
+    sompi_to_vecno, sompi_to_vecno_string, sompi_to_vecno_string_with_suffix, try_vecno_str_to_sompi, try_vecno_str_to_sompi_i64,
+    vecno_suffix, vecno_to_sompi,
 };
 pub use crate::utxo::balance::{Balance, BalanceStrings};
 pub use crate::wallet::args::*;

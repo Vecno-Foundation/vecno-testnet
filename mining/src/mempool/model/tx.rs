@@ -1,10 +1,10 @@
 use crate::mempool::tx::{Priority, RbfPolicy};
-use vecno_consensus_core::tx::{MutableTransaction, Transaction, TransactionId, TransactionOutpoint};
-use vecno_mining_errors::mempool::RuleError;
 use std::{
     fmt::{Display, Formatter},
     sync::Arc,
 };
+use vecno_consensus_core::tx::{MutableTransaction, Transaction, TransactionId, TransactionOutpoint};
+use vecno_mining_errors::mempool::RuleError;
 
 pub(crate) struct MempoolTransaction {
     pub(crate) mtx: MutableTransaction,

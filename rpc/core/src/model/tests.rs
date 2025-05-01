@@ -2,6 +2,10 @@
 mod mockery {
 
     use crate::{model::*, RpcScriptClass};
+    use rand::Rng;
+    use std::net::{IpAddr, Ipv4Addr};
+    use std::sync::Arc;
+    use uuid::Uuid;
     use vecno_addresses::{Prefix, Version};
     use vecno_consensus_core::api::BlockCount;
     use vecno_consensus_core::network::NetworkType;
@@ -12,10 +16,6 @@ mod mockery {
     use vecno_notify::subscription::Command;
     use vecno_rpc_macros::test_wrpc_serializer as test;
     use vecno_utils::networking::{ContextualNetAddress, IpAddress, NetAddress};
-    use rand::Rng;
-    use std::net::{IpAddr, Ipv4Addr};
-    use std::sync::Arc;
-    use uuid::Uuid;
     use workflow_serializer::prelude::*;
 
     // this trait is used to generate random

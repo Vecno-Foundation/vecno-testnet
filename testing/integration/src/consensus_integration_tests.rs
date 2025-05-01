@@ -48,6 +48,18 @@ use crate::common;
 use flate2::read::GzDecoder;
 use futures_util::future::try_join_all;
 use itertools::Itertools;
+use serde::{Deserialize, Serialize};
+use std::cmp::{max, Ordering};
+use std::collections::HashSet;
+use std::path::Path;
+use std::sync::Arc;
+use std::{
+    collections::HashMap,
+    fs::File,
+    future::Future,
+    io::{BufRead, BufReader},
+    str::{from_utf8, FromStr},
+};
 use vecno_consensus_core::errors::tx::TxRuleError;
 use vecno_consensus_core::merkle::calc_hash_merkle_root;
 use vecno_consensus_core::muhash::MuHashExtensions;
@@ -65,18 +77,6 @@ use vecno_txscript::caches::TxScriptCacheCounters;
 use vecno_txscript::opcodes::codes::OpTrue;
 use vecno_utxoindex::api::{UtxoIndexApi, UtxoIndexProxy};
 use vecno_utxoindex::UtxoIndex;
-use serde::{Deserialize, Serialize};
-use std::cmp::{max, Ordering};
-use std::collections::HashSet;
-use std::path::Path;
-use std::sync::Arc;
-use std::{
-    collections::HashMap,
-    fs::File,
-    future::Future,
-    io::{BufRead, BufReader},
-    str::{from_utf8, FromStr},
-};
 
 #[derive(Serialize, Deserialize, Debug)]
 struct JsonBlock {

@@ -9,7 +9,7 @@ use vecno_daemon::{DaemonEvent, DaemonKind, Daemons};
 use vecno_wallet_core::account::Account;
 use vecno_wallet_core::rpc::DynRpcApi;
 use vecno_wallet_core::storage::{IdT, PrvKeyDataInfo};
-use vecno_wrpc_client::{VecnoRpcClient, Resolver};
+use vecno_wrpc_client::{Resolver, VecnoRpcClient};
 use workflow_core::channel::*;
 use workflow_core::time::Instant;
 use workflow_log::*;

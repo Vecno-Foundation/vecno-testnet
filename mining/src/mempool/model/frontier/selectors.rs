@@ -1,11 +1,11 @@
 use crate::Policy;
-use vecno_consensus_core::{
-    block::TemplateTransactionSelector,
-    tx::{Transaction, TransactionId},
-};
 use std::{
     collections::{BTreeMap, HashMap},
     sync::Arc,
+};
+use vecno_consensus_core::{
+    block::TemplateTransactionSelector,
+    tx::{Transaction, TransactionId},
 };
 
 pub struct SequenceSelectorTransaction {

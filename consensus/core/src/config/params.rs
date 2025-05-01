@@ -8,12 +8,12 @@ use crate::{
     network::{NetworkId, NetworkType},
     BlockLevel, KType,
 };
-use vecno_addresses::Prefix;
-use vecno_math::Uint256;
 use std::{
     cmp::min,
     time::{SystemTime, UNIX_EPOCH},
 };
+use vecno_addresses::Prefix;
+use vecno_math::Uint256;
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ForkActivation(u64);
@@ -364,8 +364,6 @@ pub const MAINNET_PARAMS: Params = Params {
     max_signature_script_len: 1_000_000_000,
     max_script_public_key_len: 1_000_000_000,
 
-
-    
     mass_per_tx_byte: 1,
     mass_per_script_pub_key_byte: 10,
     mass_per_sig_op: 1000,
@@ -436,7 +434,7 @@ pub const TESTNET_PARAMS: Params = Params {
     // We define a year as 365.25 days
     // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
     premine_daa_score: 1,
-    premine_phase_base_subsidy: 1500000000000000,  // 15,000,000 premine
+    premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,

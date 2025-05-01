@@ -1,3 +1,7 @@
+use rocksdb::WriteBatch;
+use serde::Deserialize;
+use serde::Serialize;
+use std::sync::Arc;
 use vecno_consensus_core::acceptance_data::AcceptanceData;
 use vecno_consensus_core::acceptance_data::AcceptedTxEntry;
 use vecno_consensus_core::acceptance_data::MergesetBlockAcceptanceData;
@@ -9,10 +13,6 @@ use vecno_database::prelude::{BatchDbWriter, CachedDbAccess, DirectDbWriter};
 use vecno_database::registry::DatabaseStorePrefixes;
 use vecno_hashes::Hash;
 use vecno_utils::mem_size::MemSizeEstimator;
-use rocksdb::WriteBatch;
-use serde::Deserialize;
-use serde::Serialize;
-use std::sync::Arc;
 
 pub trait AcceptanceDataStoreReader {
     fn get(&self, hash: Hash) -> Result<Arc<AcceptanceData>, StoreError>;

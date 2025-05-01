@@ -14,6 +14,7 @@ use itertools::Itertools;
 use parking_lot::{Mutex, RwLock};
 use rocksdb::WriteBatch;
 
+use thiserror::Error;
 use vecno_consensus_core::{
     blockhash::{self, BlockHashExtensions},
     errors::consensus::{ConsensusError, ConsensusResult},
@@ -26,7 +27,6 @@ use vecno_core::info;
 use vecno_database::{prelude::StoreResultExtensions, utils::DbLifetime};
 use vecno_hashes::Hash;
 use vecno_pow::calc_block_level;
-use thiserror::Error;
 
 use crate::{
     consensus::{

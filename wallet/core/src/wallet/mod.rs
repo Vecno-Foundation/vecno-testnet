@@ -31,7 +31,7 @@ use vecno_notify::{
     scope::{Scope, VirtualDaaScoreChangedScope},
 };
 use vecno_wallet_keys::xpub::NetworkTaggedXpub;
-use vecno_wrpc_client::{VecnoRpcClient, Resolver, WrpcEncoding};
+use vecno_wrpc_client::{Resolver, VecnoRpcClient, WrpcEncoding};
 use workflow_core::task::spawn;
 
 pub type WalletGuard<'l> = AsyncMutexGuard<'l, ()>;

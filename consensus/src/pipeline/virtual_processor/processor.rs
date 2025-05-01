@@ -47,6 +47,7 @@ use crate::{
         window::WindowManager,
     },
 };
+use once_cell::unsync::Lazy;
 use vecno_consensus_core::{
     acceptance_data::AcceptanceData,
     api::args::{TransactionValidationArgs, TransactionValidationBatchArgs},
@@ -77,13 +78,10 @@ use vecno_database::prelude::{StoreError, StoreResultEmptyTuple, StoreResultExte
 use vecno_hashes::Hash;
 use vecno_muhash::MuHash;
 use vecno_notify::{events::EventType, notifier::Notify};
-use once_cell::unsync::Lazy;
 
 use super::errors::{PruningImportError, PruningImportResult};
 use crossbeam_channel::{Receiver as CrossbeamReceiver, Sender as CrossbeamSender};
 use itertools::Itertools;
-use vecno_consensus_core::tx::ValidatedTransaction;
-use vecno_utils::binary_heap::BinaryHeapExtensions;
 use parking_lot::{RwLock, RwLockUpgradableReadGuard};
 use rand::{seq::SliceRandom, Rng};
 use rayon::{
@@ -97,6 +95,8 @@ use std::{
     ops::Deref,
     sync::{atomic::Ordering, Arc},
 };
+use vecno_consensus_core::tx::ValidatedTransaction;
+use vecno_utils::binary_heap::BinaryHeapExtensions;
 
 pub struct VirtualStateProcessor {
     // Channels

@@ -7,6 +7,9 @@ pub use crate::error::Error;
 use crate::imports::*;
 use crate::tx::PaymentOutputs;
 use futures::stream;
+use secp256k1::schnorr;
+use secp256k1::{Message, PublicKey};
+use std::iter;
 use vecno_bip32::{DerivationPath, KeyFingerprint, PrivateKey};
 use vecno_consensus_client::UtxoEntry as ClientUTXO;
 use vecno_consensus_core::hashing::sighash::{calc_schnorr_signature_hash, SigHashReusedValuesUnsync};
@@ -20,9 +23,6 @@ pub use vecno_wallet_pskt::bundle::Bundle;
 use vecno_wallet_pskt::prelude::KeySource;
 use vecno_wallet_pskt::prelude::{Finalizer, Inner, SignInputOk, Signature, Signer};
 pub use vecno_wallet_pskt::pskt::{Creator, PSKT};
-use secp256k1::schnorr;
-use secp256k1::{Message, PublicKey};
-use std::iter;
 
 struct PSKBSignerInner {
     keydata: PrvKeyData,

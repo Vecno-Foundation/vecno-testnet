@@ -1,8 +1,8 @@
 use crate::{hashing, BlueWorkType};
 use borsh::{BorshDeserialize, BorshSerialize};
+use serde::{Deserialize, Serialize};
 use vecno_hashes::Hash;
 use vecno_utils::mem_size::MemSizeEstimator;
-use serde::{Deserialize, Serialize};
 
 /// @category Consensus
 #[derive(Clone, Debug, Serialize, Deserialize, BorshSerialize, BorshDeserialize)]
@@ -108,8 +108,8 @@ impl MemSizeEstimator for Header {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use vecno_math::Uint192;
     use serde_json::Value;
+    use vecno_math::Uint192;
 
     #[test]
     fn test_header_ser() {

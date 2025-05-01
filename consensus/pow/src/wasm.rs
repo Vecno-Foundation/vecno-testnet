@@ -1,5 +1,6 @@
 use crate::matrix::Matrix;
 use js_sys::BigInt;
+use num::Float;
 use vecno_consensus_client::Header;
 use vecno_consensus_client::HeaderT;
 use vecno_consensus_core::hashing;
@@ -8,7 +9,6 @@ use vecno_hashes::PowHash;
 use vecno_math::Uint256;
 use vecno_utils::hex::FromHex;
 use vecno_utils::hex::ToHex;
-use num::Float;
 use wasm_bindgen::prelude::*;
 use workflow_wasm::convert::TryCastFromJs;
 use workflow_wasm::error::Error;

@@ -6,10 +6,10 @@ use crate::derivation::AddressDerivationMeta;
 use crate::imports::*;
 use borsh::{BorshDeserialize, BorshSerialize};
 use convert_case::{Case, Casing};
-use vecno_addresses::Address;
-use vecno_wallet_macros::declare_typescript_wasm_interface as declare;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
+use vecno_addresses::Address;
+use vecno_wallet_macros::declare_typescript_wasm_interface as declare;
 
 ///
 /// Structure that represents a wallet account. This structure contains

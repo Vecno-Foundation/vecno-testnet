@@ -5,6 +5,7 @@ use std::{
 };
 
 use itertools::Itertools;
+use rocksdb::WriteBatch;
 use vecno_consensus_core::{
     blockhash::{BlockHashes, ORIGIN},
     errors::pruning::{PruningImportError, PruningImportResult},
@@ -17,7 +18,6 @@ use vecno_core::{debug, trace};
 use vecno_hashes::Hash;
 use vecno_pow::calc_block_level;
 use vecno_utils::{binary_heap::BinaryHeapExtensions, vec::VecExtensions};
-use rocksdb::WriteBatch;
 
 use crate::{
     model::{

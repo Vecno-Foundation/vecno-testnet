@@ -1,5 +1,5 @@
-use vecno_consensus_core::tx::TransactionId;
 use std::collections::HashSet;
+use vecno_consensus_core::tx::TransactionId;
 
 pub mod candidate_tx;
 pub mod owner_txs;

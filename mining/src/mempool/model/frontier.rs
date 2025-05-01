@@ -5,12 +5,12 @@ use crate::{
 };
 
 use feerate_key::FeerateTransactionKey;
-use vecno_consensus_core::{block::TemplateTransactionSelector, tx::Transaction};
-use vecno_core::trace;
 use rand::{distributions::Uniform, prelude::Distribution, Rng};
 use search_tree::SearchTree;
 use selectors::{SequenceSelector, SequenceSelectorInput, TakeAllSelector};
 use std::{collections::HashSet, iter::FusedIterator, sync::Arc};
+use vecno_consensus_core::{block::TemplateTransactionSelector, tx::Transaction};
+use vecno_core::trace;
 
 pub(crate) mod feerate_key;
 pub(crate) mod search_tree;

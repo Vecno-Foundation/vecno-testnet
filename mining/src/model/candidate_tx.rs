@@ -1,6 +1,6 @@
 use crate::FeerateTransactionKey;
-use vecno_consensus_core::tx::Transaction;
 use std::sync::Arc;
+use vecno_consensus_core::tx::Transaction;
 
 /// Transaction with additional metadata needed in order to be a candidate
 /// in the transaction selection algorithm

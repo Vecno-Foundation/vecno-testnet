@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use rocksdb::WriteBatch;
+use serde::{Deserialize, Serialize};
 use vecno_consensus_core::{header::Header, BlockHasher, BlockLevel};
 use vecno_database::prelude::{BatchDbWriter, CachedDbAccess};
 use vecno_database::prelude::{CachePolicy, DB};
@@ -7,8 +9,6 @@ use vecno_database::prelude::{StoreError, StoreResult};
 use vecno_database::registry::DatabaseStorePrefixes;
 use vecno_hashes::Hash;
 use vecno_utils::mem_size::MemSizeEstimator;
-use rocksdb::WriteBatch;
-use serde::{Deserialize, Serialize};
 
 pub trait HeaderStoreReader {
     fn get_daa_score(&self, hash: Hash) -> Result<u64, StoreError>;

@@ -1,15 +1,15 @@
 // Example of simple client to connect with Vecno node using wRPC connection and collect some node and network basic data
 
+use std::process::ExitCode;
+use std::time::Duration;
 use vecno_rpc_core::{api::rpc::RpcApi, GetBlockDagInfoResponse, GetServerInfoResponse};
 use vecno_wrpc_client::{
     client::{ConnectOptions, ConnectStrategy},
     prelude::NetworkId,
     prelude::NetworkType,
     result::Result,
-    VecnoRpcClient, Resolver, WrpcEncoding,
+    Resolver, VecnoRpcClient, WrpcEncoding,
 };
-use std::process::ExitCode;
-use std::time::Duration;
 
 #[tokio::main]
 async fn main() -> ExitCode {
