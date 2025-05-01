@@ -381,7 +381,7 @@ pub const MAINNET_PARAMS: Params = Params {
     premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
-    max_block_level: 225,
+    max_block_level: 250,
     pruning_proof_m: 1000,
 
     payload_activation: ForkActivation::never(),
