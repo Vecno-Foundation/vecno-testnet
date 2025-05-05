@@ -329,7 +329,7 @@ mod tests {
 
     #[test]
     fn test_target_levels() {
-        let max_block_level: BlockLevel = 225;
+        let max_block_level: BlockLevel = 250;
         for level in 1..=max_block_level {
             // required pow for level
             let level_target = (Uint320::from_u64(1) << (max_block_level - level).max(MAX_WORK_LEVEL) as u32) - Uint320::from_u64(1);

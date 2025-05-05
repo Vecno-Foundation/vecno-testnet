@@ -340,7 +340,7 @@ pub const MAINNET_PARAMS: Params = Params {
     past_median_time_sample_rate: Bps::<1>::past_median_time_sample_rate(),
     past_median_time_sampled_window_size: MEDIAN_TIME_SAMPLED_WINDOW_SIZE,
     target_time_per_block: 1000,
-    sampling_activation: ForkActivation::never(),
+    sampling_activation: ForkActivation::always(),
     max_difficulty_target: MAX_DIFFICULTY_TARGET,
     max_difficulty_target_f64: MAX_DIFFICULTY_TARGET_AS_F64,
     difficulty_sample_rate: Bps::<1>::difficulty_adjustment_sample_rate(),
@@ -350,19 +350,17 @@ pub const MAINNET_PARAMS: Params = Params {
     max_block_parents: 10,
     mergeset_size_limit: (LEGACY_DEFAULT_GHOSTDAG_K as u64) * 10,
     merge_depth: 3600,
-    finality_depth: 86400,
-    pruning_depth: 185798,
+    finality_depth: 86,
+    pruning_depth: 185,
     coinbase_payload_script_public_key_max_len: 150,
     max_coinbase_payload_len: 204,
 
-    // This is technically a soft fork from the Go implementation since vecnod's consensus doesn't
-    // check these rules, but in practice it's enforced by the network layer that limits the message
-    // size to 1 GB.
-    // These values should be lowered to more reasonable amounts on the next planned HF/SF.
-    max_tx_inputs: 1_000_000_000,
-    max_tx_outputs: 1_000_000_000,
-    max_signature_script_len: 1_000_000_000,
-    max_script_public_key_len: 1_000_000_000,
+    max_tx_inputs: 1000,
+    max_tx_outputs: 1000,
+    max_signature_script_len: 10_000,
+    // Compute mass enforces a limit of ~45.5Kb, however script engine max scripts size is 10Kb so there's no point in surpassing that.
+    // Note that storage mass will kick in and gradually penalize also for lower lengths (generalized KIP-0009, plurality will be high).
+    max_script_public_key_len: 10_000,
 
     mass_per_tx_byte: 1,
     mass_per_script_pub_key_byte: 10,
@@ -370,28 +368,25 @@ pub const MAINNET_PARAMS: Params = Params {
     max_block_mass: 500_000,
 
     storage_mass_parameter: STORAGE_MASS_PARAMETER,
-    storage_mass_activation: ForkActivation::never(),
-    kip10_activation: ForkActivation::never(),
+    storage_mass_activation: ForkActivation::always(),
+    kip10_activation: ForkActivation::always(),
 
     // premine_daa_score is the DAA score after which the pre-deflationary period
-    // switches to the deflationary period. This number is calculated as follows:
-    // We define a year as 365.25 days
-    // One month in seconds = 365.25 / 12 * 24 * 60 * 60 = 2629800
     premine_daa_score: 1,
     premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
     max_block_level: 250,
-    pruning_proof_m: 1000,
+    pruning_proof_m: Bps::<1>::pruning_proof_m(),
 
-    payload_activation: ForkActivation::never(),
+    payload_activation: ForkActivation::always(),
 };
 
 pub const TESTNET_PARAMS: Params = Params {
     dns_seeders: &[],
     net: NetworkId::with_suffix(NetworkType::Testnet, 10),
     genesis: TESTNET_GENESIS,
-    ghostdag_k: LEGACY_DEFAULT_GHOSTDAG_K,
+    ghostdag_k: Bps::<1>::ghostdag_k(),
     legacy_timestamp_deviation_tolerance: LEGACY_TIMESTAMP_DEVIATION_TOLERANCE,
     new_timestamp_deviation_tolerance: NEW_TIMESTAMP_DEVIATION_TOLERANCE,
     past_median_time_sample_rate: Bps::<1>::past_median_time_sample_rate(),
@@ -407,8 +402,8 @@ pub const TESTNET_PARAMS: Params = Params {
     max_block_parents: 10,
     mergeset_size_limit: (LEGACY_DEFAULT_GHOSTDAG_K as u64) * 10,
     merge_depth: 3600,
-    finality_depth: 86400,
-    pruning_depth: 185798,
+    finality_depth: 86,
+    pruning_depth: 185,
     coinbase_payload_script_public_key_max_len: 150,
     max_coinbase_payload_len: 204,
 

@@ -407,7 +407,7 @@ mod tests {
         let extra_data = [2u8, 3];
         let data = CoinbaseData {
             blue_score: 56,
-            subsidy: 400000000,
+            subsidy: 200000000,
             miner_data: MinerData {
                 script_public_key: ScriptPublicKey::new(0, ScriptVec::from_slice(&script_data)),
                 extra_data: &extra_data as &[u8],
@@ -451,7 +451,7 @@ mod tests {
         let extra_data = [2u8, 3, 23, 98];
         let data = CoinbaseData {
             blue_score: 56345,
-            subsidy: 400000000,
+            subsidy: 200000000,
             miner_data: MinerData {
                 script_public_key: ScriptPublicKey::new(0, ScriptVec::from_slice(&script_data)),
                 extra_data: &extra_data,
@@ -487,6 +487,6 @@ mod tests {
 
     /// Return a CoinbaseManager with legacy golang 1 BPS properties
     fn create_legacy_manager() -> CoinbaseManager {
-        CoinbaseManager::new(150, 204, 1, 400000000, 1000)
+        CoinbaseManager::new(150, 204, 1, 1500000000000000, 1000)
     }
 }
