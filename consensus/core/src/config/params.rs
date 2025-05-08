@@ -340,7 +340,7 @@ pub const MAINNET_PARAMS: Params = Params {
     past_median_time_sample_rate: Bps::<1>::past_median_time_sample_rate(),
     past_median_time_sampled_window_size: MEDIAN_TIME_SAMPLED_WINDOW_SIZE,
     target_time_per_block: 1000,
-    sampling_activation: ForkActivation::always(),
+    sampling_activation: ForkActivation::never(),
     max_difficulty_target: MAX_DIFFICULTY_TARGET,
     max_difficulty_target_f64: MAX_DIFFICULTY_TARGET_AS_F64,
     difficulty_sample_rate: Bps::<1>::difficulty_adjustment_sample_rate(),
@@ -350,8 +350,8 @@ pub const MAINNET_PARAMS: Params = Params {
     max_block_parents: 10,
     mergeset_size_limit: (LEGACY_DEFAULT_GHOSTDAG_K as u64) * 10,
     merge_depth: 3600,
-    finality_depth: 86,
-    pruning_depth: 185,
+    finality_depth: 860,
+    pruning_depth: 1850,
     coinbase_payload_script_public_key_max_len: 150,
     max_coinbase_payload_len: 204,
 
@@ -368,18 +368,18 @@ pub const MAINNET_PARAMS: Params = Params {
     max_block_mass: 500_000,
 
     storage_mass_parameter: STORAGE_MASS_PARAMETER,
-    storage_mass_activation: ForkActivation::always(),
-    kip10_activation: ForkActivation::always(),
+    storage_mass_activation: ForkActivation::never(),
+    kip10_activation: ForkActivation::never(),
 
     // premine_daa_score is the DAA score after which the pre-deflationary period
     premine_daa_score: 1,
     premine_phase_base_subsidy: 1500000000000000, // 15,000,000 premine
     coinbase_maturity: 100,
     skip_proof_of_work: false,
-    max_block_level: 250,
-    pruning_proof_m: Bps::<1>::pruning_proof_m(),
+    max_block_level: 225,
+    pruning_proof_m: 1000,
 
-    payload_activation: ForkActivation::always(),
+    payload_activation: ForkActivation::never(),
 };
 
 pub const TESTNET_PARAMS: Params = Params {
