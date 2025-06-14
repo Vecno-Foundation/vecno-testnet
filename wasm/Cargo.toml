@@ -18,13 +18,11 @@ crate-type = ["cdylib"]
 cfg-if.workspace = true
 js-sys.workspace = true
 vecno-addresses.workspace = true
-vecno-bip32.workspace = true
 vecno-consensus-core.workspace = true
 vecno-consensus-wasm.workspace = true
 vecno-core.workspace = true
 vecno-math.workspace = true
 vecno-pow.workspace = true
-vecno-txscript.workspace = true
 vecno-rpc-core.workspace = true
 vecno-utils.workspace = true
 vecno-wasm-core.workspace = true
@@ -42,12 +40,10 @@ workflow-wasm.workspace = true
 wasm32-sdk = [
     "vecno-wallet-core/wasm32-sdk",
     "vecno-pow/wasm32-sdk",
-    "vecno-txscript/wasm32-sdk",
 ]
 wasm32-core = [
     "vecno-wallet-core/wasm32-core",
     "vecno-pow/wasm32-sdk",
-    "vecno-txscript/wasm32-sdk",
 ]
 wasm32-rpc = [
     "vecno-consensus-core/wasm32-sdk",
@@ -67,3 +63,8 @@ targets = [
     { target = "web", out-dir = "web/vecno" }
 ]
 folder = "setup"
+
+# Workaround for Rust 1.87.0
+# https://github.com/rust-lang/rust/issues/141048
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-O", "--enable-bulk-memory", "--enable-nontrapping-float-to-int"]

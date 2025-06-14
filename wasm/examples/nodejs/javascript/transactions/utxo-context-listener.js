@@ -9,7 +9,7 @@ const {
     Resolver,
     UtxoProcessor,
     UtxoContext,
-    vecnoTOSompi,
+    vecnoToSompi,
     createTransactions,
     initConsolePanicHook
 } = require('../../../../nodejs/vecno');

@@ -34,7 +34,6 @@ thiserror.workspace = true
 triggered.workspace = true
 workflow-core.workspace = true
 workflow-log.workspace = true
-workflow-serializer.workspace = true
 
 [dev-dependencies]
 criterion.workspace = true

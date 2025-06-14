@@ -13,8 +13,11 @@ use vecno_database::utils::DbLifetime;
 use vecno_hashes::Hash;
 use vecno_notify::subscription::context::SubscriptionContext;
 
-use super::services::{DbDagTraversalManager, DbGhostdagManager, DbWindowManager};
-use super::Consensus;
+use std::future::Future;
+use std::{sync::Arc, thread::JoinHandle};
+use vecno_database::create_temp_db;
+use vecno_database::prelude::ConnBuilder;
+
 use crate::pipeline::virtual_processor::test_block_builder::TestBlockBuilder;
 use crate::processes::window::WindowManager;
 use crate::{
@@ -32,10 +35,9 @@ use crate::{
     pipeline::{body_processor::BlockBodyProcessor, virtual_processor::VirtualStateProcessor, ProcessingCounters},
     test_helpers::header_from_precomputed_hash,
 };
-use std::future::Future;
-use std::{sync::Arc, thread::JoinHandle};
-use vecno_database::create_temp_db;
-use vecno_database::prelude::ConnBuilder;
+
+use super::services::{DbDagTraversalManager, DbGhostdagManager, DbWindowManager};
+use super::Consensus;
 
 pub struct TestConsensus {
     params: Params,
@@ -116,7 +118,7 @@ impl TestConsensus {
 
     pub fn build_header_with_parents(&self, hash: Hash, parents: Vec<Hash>) -> Header {
         let mut header = header_from_precomputed_hash(hash, parents);
-        let ghostdag_data = self.consensus.services.ghostdag_manager.ghostdag(header.direct_parents());
+        let ghostdag_data = self.consensus.services.ghostdag_primary_manager.ghostdag(header.direct_parents());
         header.pruning_point = self
             .consensus
             .services
@@ -136,12 +138,6 @@ impl TestConsensus {
         self.validate_and_insert_block(self.build_block_with_parents(hash, parents).to_immutable()).virtual_state_task
     }
 
-    /// Adds a valid block with the given transactions and parents to the consensus.
-    ///
-    /// # Panics
-    ///
-    /// Panics if block builder validation rules are violated.
-    /// See `vecno_consensus_core::errors::block::RuleError` for the complete list of possible validation rules.
     pub fn add_utxo_valid_block_with_parents(
         &self,
         hash: Hash,
@@ -153,12 +149,6 @@ impl TestConsensus {
             .virtual_state_task
     }
 
-    /// Builds a valid block with the given transactions, parents, and miner data.
-    ///
-    /// # Panics
-    ///
-    /// Panics if block builder validation rules are violated.
-    /// See `vecno_consensus_core::errors::block::RuleError` for the complete list of possible validation rules.
     pub fn build_utxo_valid_block_with_parents(
         &self,
         hash: Hash,
@@ -186,7 +176,7 @@ impl TestConsensus {
 
         let cb = Transaction::new(TX_VERSION, vec![], vec![], 0, SUBNETWORK_ID_COINBASE, 0, cb_payload);
         txs.insert(0, cb);
-        header.hash_merkle_root = calc_hash_merkle_root(txs.iter(), false);
+        header.hash_merkle_root = calc_hash_merkle_root(txs.iter());
         MutableBlock::new(header, txs)
     }
 
@@ -211,7 +201,7 @@ impl TestConsensus {
     }
 
     pub fn ghostdag_store(&self) -> &Arc<DbGhostdagStore> {
-        &self.consensus.ghostdag_store
+        &self.consensus.ghostdag_primary_store
     }
 
     pub fn reachability_store(&self) -> &Arc<RwLock<DbReachabilityStore>> {
@@ -243,7 +233,7 @@ impl TestConsensus {
     }
 
     pub fn ghostdag_manager(&self) -> &DbGhostdagManager {
-        &self.consensus.services.ghostdag_manager
+        &self.consensus.services.ghostdag_primary_manager
     }
 }
 

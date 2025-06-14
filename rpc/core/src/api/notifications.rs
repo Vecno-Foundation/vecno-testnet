@@ -1,8 +1,5 @@
-//!
-//! RPC notifications that can be sent to clients.
-//!
-
 use crate::model::message::*;
+use borsh::{BorshDeserialize, BorshSerialize};
 use derive_more::Display;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -16,11 +13,10 @@ use vecno_notify::{
     },
 };
 use wasm_bindgen::JsValue;
-use workflow_serializer::prelude::*;
 use workflow_wasm::serde::to_value;
 
 full_featured! {
-#[derive(Clone, Debug, Display, Serialize, Deserialize)]
+#[derive(Clone, Debug, Display, Serialize, Deserialize, BorshSerialize, BorshDeserialize)]
 pub enum Notification {
     #[display(fmt = "BlockAdded notification: block hash {}", "_0.block.header.hash")]
     BlockAdded(BlockAddedNotification),
@@ -117,92 +113,14 @@ impl NotificationTrait for Notification {
     }
 }
 
-impl Serializer for Notification {
-    fn serialize<W: std::io::Write>(&self, writer: &mut W) -> std::io::Result<()> {
-        store!(u16, &1, writer)?;
-        match self {
-            Notification::BlockAdded(notification) => {
-                store!(u16, &0, writer)?;
-                serialize!(BlockAddedNotification, notification, writer)?;
-            }
-            Notification::VirtualChainChanged(notification) => {
-                store!(u16, &1, writer)?;
-                serialize!(VirtualChainChangedNotification, notification, writer)?;
-            }
-            Notification::FinalityConflict(notification) => {
-                store!(u16, &2, writer)?;
-                serialize!(FinalityConflictNotification, notification, writer)?;
-            }
-            Notification::FinalityConflictResolved(notification) => {
-                store!(u16, &3, writer)?;
-                serialize!(FinalityConflictResolvedNotification, notification, writer)?;
-            }
-            Notification::UtxosChanged(notification) => {
-                store!(u16, &4, writer)?;
-                serialize!(UtxosChangedNotification, notification, writer)?;
-            }
-            Notification::SinkBlueScoreChanged(notification) => {
-                store!(u16, &5, writer)?;
-                serialize!(SinkBlueScoreChangedNotification, notification, writer)?;
-            }
-            Notification::VirtualDaaScoreChanged(notification) => {
-                store!(u16, &6, writer)?;
-                serialize!(VirtualDaaScoreChangedNotification, notification, writer)?;
-            }
-            Notification::PruningPointUtxoSetOverride(notification) => {
-                store!(u16, &7, writer)?;
-                serialize!(PruningPointUtxoSetOverrideNotification, notification, writer)?;
-            }
-            Notification::NewBlockTemplate(notification) => {
-                store!(u16, &8, writer)?;
-                serialize!(NewBlockTemplateNotification, notification, writer)?;
-            }
-        }
-        Ok(())
-    }
-}
+#[cfg(test)]
+mod test {
+    use super::*;
 
-impl Deserializer for Notification {
-    fn deserialize<R: std::io::Read>(reader: &mut R) -> std::io::Result<Self> {
-        let _version = load!(u16, reader)?;
-        match load!(u16, reader)? {
-            0 => {
-                let notification = deserialize!(BlockAddedNotification, reader)?;
-                Ok(Notification::BlockAdded(notification))
-            }
-            1 => {
-                let notification = deserialize!(VirtualChainChangedNotification, reader)?;
-                Ok(Notification::VirtualChainChanged(notification))
-            }
-            2 => {
-                let notification = deserialize!(FinalityConflictNotification, reader)?;
-                Ok(Notification::FinalityConflict(notification))
-            }
-            3 => {
-                let notification = deserialize!(FinalityConflictResolvedNotification, reader)?;
-                Ok(Notification::FinalityConflictResolved(notification))
-            }
-            4 => {
-                let notification = deserialize!(UtxosChangedNotification, reader)?;
-                Ok(Notification::UtxosChanged(notification))
-            }
-            5 => {
-                let notification = deserialize!(SinkBlueScoreChangedNotification, reader)?;
-                Ok(Notification::SinkBlueScoreChanged(notification))
-            }
-            6 => {
-                let notification = deserialize!(VirtualDaaScoreChangedNotification, reader)?;
-                Ok(Notification::VirtualDaaScoreChanged(notification))
-            }
-            7 => {
-                let notification = deserialize!(PruningPointUtxoSetOverrideNotification, reader)?;
-                Ok(Notification::PruningPointUtxoSetOverride(notification))
-            }
-            8 => {
-                let notification = deserialize!(NewBlockTemplateNotification, reader)?;
-                Ok(Notification::NewBlockTemplate(notification))
-            }
-            _ => Err(std::io::Error::new(std::io::ErrorKind::InvalidData, "Invalid variant")),
-        }
+    #[test]
+    fn test_notification_from_bytes() {
+        let bytes = &vec![6, 169, 167, 75, 2, 0, 0, 0, 0][..];
+        let notification = Notification::try_from_slice(bytes);
+        println!("notification: {notification:?}");
     }
 }

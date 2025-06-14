@@ -1,5 +1,3 @@
-//! Node connection endpoint as provided by the [`Resolver`].
-
 use crate::imports::*;
 
 ///
@@ -13,10 +11,16 @@ use crate::imports::*;
 pub struct NodeDescriptor {
     /// The unique identifier of the node.
     #[wasm_bindgen(getter_with_clone)]
-    pub uid: String,
+    pub id: String,
     /// The URL of the node WebSocket (wRPC URL).
     #[wasm_bindgen(getter_with_clone)]
     pub url: String,
+    /// Optional name of the node provider.
+    #[wasm_bindgen(getter_with_clone)]
+    pub provider_name: Option<String>,
+    /// Optional site URL of the node provider.
+    #[wasm_bindgen(getter_with_clone)]
+    pub provider_url: Option<String>,
 }
 
 impl Eq for NodeDescriptor {}

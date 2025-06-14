@@ -1,11 +1,10 @@
-use crate::FeerateTransactionKey;
 use std::sync::Arc;
-use vecno_consensus_core::tx::Transaction;
+use vecno_consensus_core::tx::{MutableTransaction, Transaction};
 
 /// Transaction with additional metadata needed in order to be a candidate
 /// in the transaction selection algorithm
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct CandidateTransaction {
+pub(crate) struct CandidateTransaction {
     /// The actual transaction
     pub tx: Arc<Transaction>,
     /// Populated fee
@@ -15,7 +14,9 @@ pub struct CandidateTransaction {
 }
 
 impl CandidateTransaction {
-    pub fn from_key(key: FeerateTransactionKey) -> Self {
-        Self { tx: key.tx, calculated_fee: key.fee, calculated_mass: key.mass }
+    pub(crate) fn from_mutable(tx: &MutableTransaction) -> Self {
+        let mass = tx.tx.mass();
+        assert_ne!(mass, 0, "mass field is expected to be set when inserting to the mempool");
+        Self { tx: tx.tx.clone(), calculated_fee: tx.calculated_fee.expect("fee is expected to be populated"), calculated_mass: mass }
     }
 }

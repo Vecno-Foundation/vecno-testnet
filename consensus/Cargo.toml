@@ -30,7 +30,6 @@ vecno-muhash.workspace = true
 vecno-notify.workspace = true
 vecno-pow.workspace = true
 vecno-txscript.workspace = true
-vecno-txscript-errors.workspace = true
 vecno-utils.workspace = true
 log.workspace = true
 once_cell.workspace = true
@@ -54,14 +53,9 @@ serde_json.workspace = true
 flate2.workspace = true
 rand_distr.workspace = true
 vecno-txscript-errors.workspace = true
-vecno-addresses.workspace = true
 
 [[bench]]
-name = "parallel_muhash"
-harness = false
-
-[[bench]]
-name = "check_scripts"
+name = "hash_benchmarks"
 harness = false
 
 [features]

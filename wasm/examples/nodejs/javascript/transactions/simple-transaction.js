@@ -6,7 +6,7 @@ const {
     PrivateKey,
     Address,
     RpcClient,
-    vecnoTOSompi,
+    vecnoToSompi,
     createTransactions,
     initConsolePanicHook
 } = require('../../../../nodejs/vecno');
@@ -55,7 +55,7 @@ initConsolePanicHook();
 
         let { transactions, summary } = await createTransactions({
             entries,
-            outputs: [{ address : destinationAddress, amount : vecnoTOSompi("0.00012")}],
+            outputs: [{ address : destinationAddress, amount : vecnoToSompi(0.00012)}],
             priorityFee: 0n,
             changeAddress: sourceAddress,
         });

@@ -21,7 +21,7 @@ pub struct P2pService {
     listen: NetAddress,
     outbound_target: usize,
     inbound_limit: usize,
-    dns_seeders: &'static [&'static str],
+    peers: &'static [&'static str],
     default_port: u16,
     shutdown: SingleTrigger,
     counters: Arc<TowerConnectionCounters>,
@@ -35,7 +35,7 @@ impl P2pService {
         listen: NetAddress,
         outbound_target: usize,
         inbound_limit: usize,
-        dns_seeders: &'static [&'static str],
+        peers: &'static [&'static str],
         default_port: u16,
         counters: Arc<TowerConnectionCounters>,
     ) -> Self {
@@ -47,7 +47,7 @@ impl P2pService {
             listen,
             outbound_target,
             inbound_limit,
-            dns_seeders,
+            peers,
             default_port,
             counters,
         }
@@ -72,7 +72,7 @@ impl AsyncService for P2pService {
             p2p_adaptor.clone(),
             self.outbound_target,
             self.inbound_limit,
-            self.dns_seeders,
+            self.peers,
             self.default_port,
             self.flow_context.address_manager.clone(),
         );

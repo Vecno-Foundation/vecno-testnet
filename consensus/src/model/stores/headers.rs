@@ -1,3 +1,4 @@
+use std::mem::size_of;
 use std::sync::Arc;
 
 use rocksdb::WriteBatch;
@@ -28,7 +29,9 @@ pub struct HeaderWithBlockLevel {
 
 impl MemSizeEstimator for HeaderWithBlockLevel {
     fn estimate_mem_bytes(&self) -> usize {
-        self.header.as_ref().estimate_mem_bytes() + size_of::<Self>()
+        size_of::<Header>()
+            + self.header.parents_by_level.iter().map(|l| l.len()).sum::<usize>() * size_of::<Hash>()
+            + size_of::<Self>()
     }
 }
 

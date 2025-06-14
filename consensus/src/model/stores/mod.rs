@@ -3,6 +3,10 @@ pub mod block_transactions;
 pub mod block_window_cache;
 pub mod children;
 pub mod daa;
+pub mod selected_chain;
+use std::{fmt::Display, mem::size_of};
+
+pub use vecno_database;
 pub mod depth;
 pub mod ghostdag;
 pub mod headers;
@@ -12,7 +16,6 @@ pub mod pruning;
 pub mod pruning_utxoset;
 pub mod reachability;
 pub mod relations;
-pub mod selected_chain;
 pub mod statuses;
 pub mod tips;
 pub mod utxo_diffs;
@@ -20,8 +23,6 @@ pub mod utxo_multisets;
 pub mod utxo_set;
 pub mod virtual_state;
 
-use std::fmt::Display;
-pub use vecno_database;
 pub use vecno_database::prelude::DB;
 
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]

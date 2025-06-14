@@ -6,7 +6,7 @@ const {
     PrivateKey,
     Generator,
     RpcClient,
-    vecnoTOSompi,
+    vecnoToSompi,
     initConsolePanicHook
 } = require('../../../../nodejs/vecno');
 
@@ -71,8 +71,8 @@ const { encoding, networkId } = require("../utils").parseArgs();
         // transaction according to the supplied outputs.
         let generator = new Generator({
             entries,
-            outputs: [{ address : sourceAddress, amount : vecnoTOSompi(0.2)}],
-            priorityFee: vecnoTOSompi(0.0001),
+            outputs: [{ address : sourceAddress, amount : vecnoToSompi(0.2)}],
+            priorityFee: vecnoToSompi(0.0001),
             changeAddress: sourceAddress,
         });
 

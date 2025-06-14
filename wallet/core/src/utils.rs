@@ -61,16 +61,16 @@ pub fn vecno_suffix(network_type: &NetworkType) -> &'static str {
 
 #[inline]
 pub fn sompi_to_vecno_string_with_suffix(sompi: u64, network_type: &NetworkType) -> String {
-    let vec = sompi_to_vecno_string(sompi);
+    let ve = sompi_to_vecno_string(sompi);
     let suffix = vecno_suffix(network_type);
-    format!("{vec} {suffix}")
+    format!("{ve} {suffix}")
 }
 
 #[inline]
 pub fn sompi_to_vecno_string_with_trailing_zeroes_and_suffix(sompi: u64, network_type: &NetworkType) -> String {
-    let vec = sompi_to_vecno_string_with_trailing_zeroes(sompi);
+    let ve = sompi_to_vecno_string_with_trailing_zeroes(sompi);
     let suffix = vecno_suffix(network_type);
-    format!("{vec} {suffix}")
+    format!("{ve} {suffix}")
 }
 
 pub fn format_address_colors(address: &Address, range: Option<usize>) -> String {

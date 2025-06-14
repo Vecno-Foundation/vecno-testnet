@@ -10,9 +10,6 @@ impl History {
     async fn main(self: Arc<Self>, ctx: &Arc<dyn Context>, mut argv: Vec<String>, _cmd: &str) -> Result<()> {
         let ctx = ctx.clone().downcast_arc::<VecnoCli>()?;
 
-        let guard = ctx.wallet().guard();
-        let guard = guard.lock().await;
-
         if argv.is_empty() {
             self.display_help(ctx, argv).await?;
             return Ok(());
@@ -37,15 +34,7 @@ impl History {
                 match store.load_single(&binding, &network_id, &txid).await {
                     Ok(tx) => {
                         let lines = tx
-                            .format_transaction_with_args(
-                                &ctx.wallet(),
-                                None,
-                                current_daa_score,
-                                true,
-                                true,
-                                Some(account.clone()),
-                                &guard,
-                            )
+                            .format_transaction_with_args(&ctx.wallet(), None, current_daa_score, true, true, Some(account.clone()))
                             .await;
                         lines.iter().for_each(|line| tprintln!(ctx, "{line}"));
                     }
@@ -86,7 +75,15 @@ impl History {
             }
         };
         let length = ids.size_hint().0;
-        let skip = if let Some(last) = last { length.saturating_sub(last) } else { 0 };
+        let skip = if let Some(last) = last {
+            if last > length {
+                0
+            } else {
+                length - last
+            }
+        } else {
+            0
+        };
         let mut index = 0;
         let page = 25;
 
@@ -119,7 +116,6 @@ impl History {
                                 include_utxo,
                                 true,
                                 Some(account.clone()),
-                                &guard,
                             )
                             .await;
                         lines.iter().for_each(|line| tprintln!(ctx, "{line}"));

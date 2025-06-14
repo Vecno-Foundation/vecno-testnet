@@ -1,15 +1,12 @@
-//!
-//! WASM specific conversion functions
-//!
-
 use crate::model::*;
 use std::sync::Arc;
 use vecno_consensus_client::*;
+use vecno_consensus_core::tx as cctx;
 
 impl From<RpcUtxosByAddressesEntry> for UtxoEntry {
     fn from(entry: RpcUtxosByAddressesEntry) -> UtxoEntry {
         let RpcUtxosByAddressesEntry { address, outpoint, utxo_entry } = entry;
-        let RpcUtxoEntry { amount, script_public_key, block_daa_score, is_coinbase } = utxo_entry;
+        let cctx::UtxoEntry { amount, script_public_key, block_daa_score, is_coinbase } = utxo_entry;
         UtxoEntry { address, outpoint: outpoint.into(), amount, script_public_key, block_daa_score, is_coinbase }
     }
 }
@@ -34,7 +31,7 @@ cfg_if::cfg_if! {
                 let inner = tx_input.inner();
                 RpcTransactionInput {
                     previous_outpoint: inner.previous_outpoint.clone().into(),
-                    signature_script: inner.signature_script.clone().unwrap_or_default(),
+                    signature_script: inner.signature_script.clone(),
                     sequence: inner.sequence,
                     sig_op_count: inner.sig_op_count,
                     verbose_data: None,
@@ -71,7 +68,7 @@ cfg_if::cfg_if! {
                     subnetwork_id: inner.subnetwork_id.clone(),
                     gas: inner.gas,
                     payload: inner.payload.clone(),
-                    mass: inner.mass,
+                    mass: 0, // TODO: apply mass to all external APIs including wasm
                     verbose_data: None,
                 }
             }

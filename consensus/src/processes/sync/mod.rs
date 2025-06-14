@@ -110,7 +110,7 @@ impl<
         (blocks, highest_reached)
     }
 
-    pub fn find_highest_common_chain_block(&self, low: Hash, high: Hash) -> Hash {
+    fn find_highest_common_chain_block(&self, low: Hash, high: Hash) -> Hash {
         self.reachability_service
             .default_backward_chain_iterator(low)
             .find(|candidate| self.reachability_service.is_chain_ancestor_of(*candidate, high))

@@ -29,6 +29,3 @@ criterion.workspace = true
 [[bench]]
 name = "bench"
 harness = false
-
-[lints]
-workspace = true

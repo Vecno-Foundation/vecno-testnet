@@ -9,7 +9,7 @@ const {
     Generator,
     UtxoProcessor,
     UtxoContext,
-    vecnoTOSompi,
+    vecnoToSompi,
     createTransactions,
     initConsolePanicHook
 } = require('../../../../nodejs/vecno');
@@ -66,13 +66,13 @@ const { encoding, networkId, address : destinationAddress } = require("../utils"
     await context.trackAddresses([sourceAddress]);
 
     // 7) Check balance, if there are enough funds, send a transaction
-    if (context.balance.mature > vecnoTOSompi(0.2) + 1000n) {
+    if (context.balance.mature > vecnoToSompi(0.2) + 1000n) {
         console.log("Sending transaction");
 
         let generator = new Generator({
             entries : context,
-            outputs: [{address, amount : vecnoTOSompi(0.2)}],
-            priorityFee: vecnoTOSompi(0.0001),
+            outputs: [{address, amount : vecnoToSompi(0.2)}],
+            priorityFee: vecnoToSompi(0.0001),
             changeAddress: sourceAddress,
         });
 

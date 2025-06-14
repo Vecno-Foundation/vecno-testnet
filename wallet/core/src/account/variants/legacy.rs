@@ -1,5 +1,5 @@
 //!
-//! Legacy (KDX, Vecno Web Wallet) account implementation
+//! Legacy Web Wallet) account implementation
 //!
 
 use crate::account::{AsLegacyAccount, Inner};
@@ -20,7 +20,7 @@ impl Factory for Ctor {
     }
 
     fn description(&self) -> String {
-        "Vecno Legacy Account (KDX, Vecno Web Wallet)".to_string()
+        "Vecno Legacy Account".to_string()
     }
 
     async fn try_load(
@@ -59,9 +59,9 @@ impl BorshSerialize for Payload {
 }
 
 impl BorshDeserialize for Payload {
-    fn deserialize_reader<R: std::io::Read>(reader: &mut R) -> IoResult<Self> {
+    fn deserialize(buf: &mut &[u8]) -> IoResult<Self> {
         let StorageHeader { version: _, .. } =
-            StorageHeader::deserialize_reader(reader)?.try_magic(Self::STORAGE_MAGIC)?.try_version(Self::STORAGE_VERSION)?;
+            StorageHeader::deserialize(buf)?.try_magic(Self::STORAGE_MAGIC)?.try_version(Self::STORAGE_VERSION)?;
 
         Ok(Self {})
     }
@@ -192,7 +192,6 @@ impl Account for Legacy {
             LEGACY_ACCOUNT_KIND.into(),
             *self.id(),
             self.name(),
-            self.balance(),
             self.prv_key_data_id.into(),
             self.receive_address().ok(),
             self.change_address().ok(),

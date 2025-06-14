@@ -70,14 +70,14 @@ impl BorshSerialize for Payload {
 }
 
 impl BorshDeserialize for Payload {
-    fn deserialize_reader<R: std::io::Read>(reader: &mut R) -> IoResult<Self> {
+    fn deserialize(buf: &mut &[u8]) -> IoResult<Self> {
         let StorageHeader { version: _, .. } =
-            StorageHeader::deserialize_reader(reader)?.try_magic(Self::STORAGE_MAGIC)?.try_version(Self::STORAGE_VERSION)?;
+            StorageHeader::deserialize(buf)?.try_magic(Self::STORAGE_MAGIC)?.try_version(Self::STORAGE_VERSION)?;
 
-        let xpub_keys = BorshDeserialize::deserialize_reader(reader)?;
-        let cosigner_index = BorshDeserialize::deserialize_reader(reader)?;
-        let minimum_signatures = BorshDeserialize::deserialize_reader(reader)?;
-        let ecdsa = BorshDeserialize::deserialize_reader(reader)?;
+        let xpub_keys = BorshDeserialize::deserialize(buf)?;
+        let cosigner_index = BorshDeserialize::deserialize(buf)?;
+        let minimum_signatures = BorshDeserialize::deserialize(buf)?;
+        let ecdsa = BorshDeserialize::deserialize(buf)?;
 
         Ok(Self { xpub_keys, cosigner_index, minimum_signatures, ecdsa })
     }
@@ -157,8 +157,8 @@ impl MultiSig {
         self.minimum_signatures
     }
 
-    fn watch_only(&self) -> bool {
-        self.prv_key_data_ids.is_none()
+    pub fn xpub_keys(&self) -> &ExtendedPublicKeys {
+        &self.xpub_keys
     }
 }
 
@@ -172,17 +172,6 @@ impl Account for MultiSig {
         MULTISIG_ACCOUNT_KIND.into()
     }
 
-    fn feature(&self) -> Option<String> {
-        match self.watch_only() {
-            true => Some("multisig-watch".to_string()),
-            false => None,
-        }
-    }
-
-    fn xpub_keys(&self) -> Option<&ExtendedPublicKeys> {
-        Some(&self.xpub_keys)
-    }
-
     fn prv_key_data_id(&self) -> Result<&PrvKeyDataId> {
         Err(Error::AccountKindFeature)
     }
@@ -192,7 +181,8 @@ impl Account for MultiSig {
     }
 
     fn sig_op_count(&self) -> u8 {
-        u8::try_from(self.xpub_keys.len()).unwrap()
+        // TODO @maxim
+        1
     }
 
     fn minimum_signatures(&self) -> u16 {
@@ -232,7 +222,6 @@ impl Account for MultiSig {
             MULTISIG_ACCOUNT_KIND.into(),
             *self.id(),
             self.name(),
-            self.balance(),
             self.prv_key_data_ids.clone().try_into()?,
             self.receive_address().ok(),
             self.change_address().ok(),

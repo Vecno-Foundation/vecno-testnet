@@ -9,11 +9,12 @@ impl Settings {
         let ctx = ctx.clone().downcast_arc::<VecnoCli>()?;
 
         tprintln!(ctx, "\nSettings:\n");
-        // let list = WalletSettings::list();
-        let list = WalletSettings::into_iter()
+        let list = WalletSettings::list();
+        let list = list
+            .iter()
             .map(|setting| {
                 let value: String = ctx.wallet().settings().get(setting.clone()).unwrap_or_else(|| "-".to_string());
-                let descr = setting.describe();
+                let descr = setting.descr();
                 (setting.as_str().to_lowercase(), value, descr)
             })
             .collect::<Vec<(_, _, _)>>();

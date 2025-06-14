@@ -6,7 +6,6 @@ use crate::{
 };
 use std::sync::Arc;
 use vecno_hashes::Hash;
-use vecno_utils::mem_size::MemSizeEstimator;
 
 /// A mutable block structure where header and transactions within can still be mutated.
 #[derive(Debug, Clone)]
@@ -67,20 +66,6 @@ impl Block {
     pub fn from_precomputed_hash(hash: Hash, parents: Vec<Hash>) -> Block {
         Block::from_header(Header::from_precomputed_hash(hash, parents))
     }
-
-    pub fn asses_for_cache(&self) -> Option<()> {
-        (self.estimate_mem_bytes() < 1_000_000).then_some(())
-    }
-}
-
-impl MemSizeEstimator for Block {
-    fn estimate_mem_bytes(&self) -> usize {
-        // Calculates mem bytes of the block (for cache tracking purposes)
-        size_of::<Self>()
-            + self.header.estimate_mem_bytes()
-            + size_of::<Vec<Transaction>>()
-            + self.transactions.iter().map(Transaction::estimate_mem_bytes).sum::<usize>()
-    }
 }
 
 /// An abstraction for a recallable transaction selector with persistent state
@@ -120,8 +105,6 @@ pub struct BlockTemplate {
     pub selected_parent_timestamp: u64,
     pub selected_parent_daa_score: u64,
     pub selected_parent_hash: Hash,
-    /// Expected length is one less than txs length due to lack of coinbase transaction
-    pub calculated_fees: Vec<u64>,
 }
 
 impl BlockTemplate {
@@ -132,17 +115,8 @@ impl BlockTemplate {
         selected_parent_timestamp: u64,
         selected_parent_daa_score: u64,
         selected_parent_hash: Hash,
-        calculated_fees: Vec<u64>,
     ) -> Self {
-        Self {
-            block,
-            miner_data,
-            coinbase_has_red_reward,
-            selected_parent_timestamp,
-            selected_parent_daa_score,
-            selected_parent_hash,
-            calculated_fees,
-        }
+        Self { block, miner_data, coinbase_has_red_reward, selected_parent_timestamp, selected_parent_daa_score, selected_parent_hash }
     }
 
     pub fn to_virtual_state_approx_id(&self) -> VirtualStateApproxId {

@@ -1,4 +1,5 @@
 use crate::imports::*;
+use vecno_wrpc_client::Resolver;
 
 #[derive(Default, Handler)]
 #[help("Connect to a Vecno network")]
@@ -14,11 +15,11 @@ impl Connect {
             let (is_public, url) = match arg_or_server_address.as_deref() {
                 Some("public") => {
                     tprintln!(ctx, "Connecting to a public node");
-                    (true, Resolver::default().get_url(WrpcEncoding::Borsh, network_id).await.map_err(|e| e.to_string())?)
+                    (true, Resolver::default().fetch(WrpcEncoding::Borsh, network_id).await.map_err(|e| e.to_string())?.url)
                 }
                 None => {
                     tprintln!(ctx, "No server set, connecting to a public node");
-                    (true, Resolver::default().get_url(WrpcEncoding::Borsh, network_id).await.map_err(|e| e.to_string())?)
+                    (true, Resolver::default().fetch(WrpcEncoding::Borsh, network_id).await.map_err(|e| e.to_string())?.url)
                 }
                 Some(url) => {
                     (false, wrpc_client.parse_url_with_network_type(url.to_string(), network_id.into()).map_err(|e| e.to_string())?)
@@ -26,23 +27,13 @@ impl Connect {
             };
 
             if is_public {
-                static WARNING: AtomicBool = AtomicBool::new(false);
-                if !WARNING.load(Ordering::Relaxed) {
-                    WARNING.store(true, Ordering::Relaxed);
-
-                    tprintln!(ctx);
-
-                    tpara!(
-                        ctx,
-                        "Please note that public node infrastructure is operated by contributors and \
-                        accessing it may expose your IP address to different node providers. \
-                        Consider running your own node for better privacy. \
-                        ",
-                    );
-                    tprintln!(ctx);
-                    tpara!(ctx, "Please do not connect to public nodes directly as they are load-balanced.");
-                    tprintln!(ctx);
-                }
+                tpara!(
+                    ctx,
+                    "Please note that default public nodes are community-operated and \
+                    accessing them may expose your IP address to different node providers. \
+                    Consider running your own node for better privacy. \
+                    ",
+                );
             }
 
             let options = ConnectOptions {

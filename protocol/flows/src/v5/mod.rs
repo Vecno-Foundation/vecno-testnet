@@ -144,12 +144,5 @@ pub fn register(ctx: FlowContext, router: Arc<Router>) -> Vec<Box<dyn Flow>> {
         )),
     ];
 
-    // The reject message is handled as a special case by the router
-    // VecnodMessagePayloadType::Reject,
-
-    // We do not register the below two messages since they are deprecated also in go-vecno
-    // VecnodMessagePayloadType::BlockWithTrustedData,
-    // VecnodMessagePayloadType::IbdBlockLocator,
-
     flows
 }

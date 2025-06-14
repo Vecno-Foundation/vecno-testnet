@@ -6,7 +6,6 @@ $crates = @(
   "vecno-wallet-cli-wasm",
   "vecno-wasm",
   "vecno-cli",
-  "vecno-os",
   "vecno-daemon"
 )
 

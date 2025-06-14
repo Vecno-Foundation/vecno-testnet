@@ -147,7 +147,6 @@ impl UtxoContext {
         self.inner().clear().await
     }
 
-    #[wasm_bindgen(getter, js_name = "isActive")]
     pub fn active(&self) -> bool {
         let processor = self.inner().processor();
         processor.try_rpc_ctl().map(|ctl| ctl.is_connected()).unwrap_or(false) && processor.is_connected() && processor.is_running()
@@ -252,10 +251,7 @@ impl From<UtxoContext> for native::UtxoContext {
 
 impl TryCastFromJs for UtxoContext {
     type Error = Error;
-    fn try_cast_from<'a, R>(value: &'a R) -> Result<Cast<'a, Self>, Self::Error>
-    where
-        R: AsRef<JsValue> + 'a,
-    {
+    fn try_cast_from(value: impl AsRef<JsValue>) -> Result<Cast<Self>, Self::Error> {
         Ok(Self::try_ref_from_js_value_as_cast(value)?)
     }
 }
@@ -269,15 +265,15 @@ impl TryFrom<IUtxoContextArgs> for UtxoContextCreateArgs {
     type Error = Error;
     fn try_from(value: IUtxoContextArgs) -> std::result::Result<Self, Self::Error> {
         if let Some(object) = Object::try_from(&value) {
-            let processor = object.cast_into::<UtxoProcessor>("processor")?;
+            let processor = object.get_cast::<UtxoProcessor>("processor")?;
 
-            let binding = if let Some(id) = object.try_cast_into::<Hash>("id")? {
-                UtxoContextBinding::Id(UtxoContextId::new(id))
+            let binding = if let Some(id) = object.try_get_cast::<Hash>("id")? {
+                UtxoContextBinding::Id(UtxoContextId::new(id.into_owned()))
             } else {
                 UtxoContextBinding::default()
             };
 
-            Ok(UtxoContextCreateArgs { binding, processor })
+            Ok(UtxoContextCreateArgs { binding, processor: processor.into_owned() })
         } else {
             Err(Error::custom("UtxoProcessor: supplied value must be an object"))
         }

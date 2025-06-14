@@ -4,7 +4,6 @@ use vecno_muhash::MuHash;
 
 use crate::{
     acceptance_data::AcceptanceData,
-    api::args::{TransactionValidationArgs, TransactionValidationBatchArgs},
     block::{Block, BlockTemplate, TemplateBuildMode, TemplateTransactionSelector, VirtualStateApproxId},
     blockstatus::BlockStatus,
     coinbase::MinerData,
@@ -17,7 +16,7 @@ use crate::{
         tx::TxResult,
     },
     header::Header,
-    pruning::{PruningPointProof, PruningPointTrustedData, PruningPointsList, PruningProofMetadata},
+    pruning::{PruningPointProof, PruningPointTrustedData, PruningPointsList},
     trusted::{ExternalGhostdagData, TrustedBlock},
     tx::{MutableTransaction, Transaction, TransactionOutpoint, UtxoEntry},
     BlockHashSet, BlueWorkType, ChainPath,
@@ -26,7 +25,6 @@ use vecno_hashes::Hash;
 
 pub use self::stats::{BlockCount, ConsensusStats};
 
-pub mod args;
 pub mod counters;
 pub mod stats;
 
@@ -39,7 +37,7 @@ pub struct BlockValidationFutures {
 
     /// A future triggered when DAG state which included this block has been processed by the virtual processor
     /// (exceptions are header-only blocks and trusted blocks which have the future completed before virtual
-    /// processing along with the `block_task`)
+    /// processing along with the [`block_task`])
     pub virtual_state_task: BlockValidationFuture,
 }
 
@@ -64,18 +62,14 @@ pub trait ConsensusApi: Send + Sync {
     }
 
     /// Populates the mempool transaction with maximally found UTXO entry data and proceeds to full transaction
-    /// validation if all are found. If validation is successful, also `transaction.calculated_fee` is expected to be populated.
-    fn validate_mempool_transaction(&self, transaction: &mut MutableTransaction, args: &TransactionValidationArgs) -> TxResult<()> {
+    /// validation if all are found. If validation is successful, also [`transaction.calculated_fee`] is expected to be populated.
+    fn validate_mempool_transaction(&self, transaction: &mut MutableTransaction) -> TxResult<()> {
         unimplemented!()
     }
 
     /// Populates the mempool transactions with maximally found UTXO entry data and proceeds to full transactions
-    /// validation if all are found. If validation is successful, also `transaction.calculated_fee` is expected to be populated.
-    fn validate_mempool_transactions_in_parallel(
-        &self,
-        transactions: &mut [MutableTransaction],
-        args: &TransactionValidationBatchArgs,
-    ) -> Vec<TxResult<()>> {
+    /// validation if all are found. If validation is successful, also [`transaction.calculated_fee`] is expected to be populated.
+    fn validate_mempool_transactions_in_parallel(&self, transactions: &mut [MutableTransaction]) -> Vec<TxResult<()>> {
         unimplemented!()
     }
 
@@ -133,10 +127,6 @@ pub trait ConsensusApi: Send + Sync {
         unimplemented!()
     }
 
-    fn get_current_block_color(&self, hash: Hash) -> Option<bool> {
-        unimplemented!()
-    }
-
     fn get_virtual_state_approx_id(&self) -> VirtualStateApproxId {
         unimplemented!()
     }
@@ -157,12 +147,7 @@ pub trait ConsensusApi: Send + Sync {
         unimplemented!()
     }
 
-    /// Gets the virtual chain paths from `low` to the `sink` hash, or until `chain_path_added_limit` is reached
-    ///
-    /// Note:   
-    ///     1) `chain_path_added_limit` will populate removed fully, and then the added chain path, up to `chain_path_added_limit` amount of hashes.
-    ///     1.1) use `None to impose no limit with optimized backward chain iteration, for better performance in cases where batching is not required.
-    fn get_virtual_chain_from_block(&self, low: Hash, chain_path_added_limit: Option<usize>) -> ConsensusResult<ChainPath> {
+    fn get_virtual_chain_from_block(&self, hash: Hash) -> ConsensusResult<ChainPath> {
         unimplemented!()
     }
 
@@ -199,11 +184,7 @@ pub trait ConsensusApi: Send + Sync {
         unimplemented!()
     }
 
-    fn calc_transaction_hash_merkle_root(&self, txs: &[Transaction], pov_daa_score: u64) -> Hash {
-        unimplemented!()
-    }
-
-    fn validate_pruning_proof(&self, proof: &PruningPointProof, proof_metadata: &PruningProofMetadata) -> PruningImportResult<()> {
+    fn validate_pruning_proof(&self, proof: &PruningPointProof) -> PruningImportResult<()> {
         unimplemented!()
     }
 
@@ -302,11 +283,7 @@ pub trait ConsensusApi: Send + Sync {
     /// Returns acceptance data for a set of blocks belonging to the selected parent chain.
     ///
     /// See `self::get_virtual_chain`
-    fn get_blocks_acceptance_data(
-        &self,
-        hashes: &[Hash],
-        merged_blocks_limit: Option<usize>,
-    ) -> ConsensusResult<Vec<Arc<AcceptanceData>>> {
+    fn get_blocks_acceptance_data(&self, hashes: &[Hash]) -> ConsensusResult<Vec<Arc<AcceptanceData>>> {
         unimplemented!()
     }
 
@@ -332,13 +309,10 @@ pub trait ConsensusApi: Send + Sync {
         unimplemented!()
     }
 
-    // TODO: Delete this function once there's no need for go-vecnod backward compatibility.
     fn get_daa_window(&self, hash: Hash) -> ConsensusResult<Vec<Hash>> {
         unimplemented!()
     }
 
-    // TODO: Think of a better name.
-    // TODO: Delete this function once there's no need for go-vecnod backward compatibility.
     fn get_trusted_block_associated_ghostdag_data_block_hashes(&self, hash: Hash) -> ConsensusResult<Vec<Hash>> {
         unimplemented!()
     }

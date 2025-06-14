@@ -1,7 +1,3 @@
-//!
-//! [`RpcError`] enum used by RPC primitives.
-//!
-
 use std::{net::AddrParseError, num::TryFromIntError};
 use thiserror::Error;
 use vecno_consensus_core::{subnets::SubnetworkConversionError, tx::TransactionId};
@@ -80,9 +76,6 @@ pub enum RpcError {
 
     #[error("IP {0} is not registered as banned.")]
     IpIsNotBanned(IpAddress),
-
-    #[error("Block {0} doesn't have any merger block.")]
-    MergerNotFound(RpcHash),
 
     #[error("Block was not submitted: {0}")]
     SubmitBlockError(SubmitBlockRejectReason),

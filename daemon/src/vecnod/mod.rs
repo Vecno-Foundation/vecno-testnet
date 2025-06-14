@@ -13,7 +13,6 @@ pub struct VecnodConfig {
     pub utxo_index: bool,
     pub perf_metrics: bool,
     pub perf_metrics_interval_sec: Option<u64>,
-    // --- TODO: these are not used yet ---
     pub peers: Vec<String>,
     pub enable_grpc: bool,
     pub enable_borsh_rpc: bool,
@@ -51,14 +50,12 @@ impl Default for VecnodConfig {
             // --
             perf_metrics: true,
             perf_metrics_interval_sec: Some(1),
-            // --- TODO: these are not used yet ---
             peers: vec![],
             unsafe_rpc: false,
             inbound_limit: None,
             outbound_target: None,
             async_threads: None,
             no_logfiles: false,
-            // ---
         }
     }
 }

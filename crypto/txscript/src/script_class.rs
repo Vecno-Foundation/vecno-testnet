@@ -17,7 +17,6 @@ pub enum Error {
 
 /// Standard classes of script payment in the blockDAG
 #[derive(PartialEq, Eq, Clone, Debug, Serialize, Deserialize, BorshSerialize, BorshDeserialize)]
-#[borsh(use_discriminant = true)]
 #[repr(u8)]
 pub enum ScriptClass {
     /// None of the recognized forms

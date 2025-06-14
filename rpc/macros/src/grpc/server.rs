@@ -72,8 +72,7 @@ impl ToTokens for RpcTable {
                                 Box::pin(async move {
                                     let mut response: #vecnod_response_type = match request.payload {
                                         Some(Payload::#request_type(ref request)) => match request.try_into() {
-                                            // TODO: RPC-CONNECTION
-                                            Ok(request) => server_ctx.core_service.#fn_call(None,request).await.into(),
+                                            Ok(request) => server_ctx.core_service.#fn_call(request).await.into(),
                                             Err(err) => #response_message_type::from(err).into(),
                                         },
                                         _ => {
@@ -129,7 +128,7 @@ impl ToTokens for RpcTable {
             {
                 let mut interface = Interface::new(#server_ctx);
 
-                for op in #payload_ops::iter() {
+                for op in #payload_ops::list() {
                     match op {
                         #(#targets)*
                     }

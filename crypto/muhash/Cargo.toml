@@ -27,9 +27,6 @@ keccak = { workspace = true, optional = true }
 # For the exhuative tests, should only be enabled with release
 rayon = { workspace = true, optional = true }
 
-[target.'cfg(not(target_family = "wasm"))'.dependencies]
-pyo3.workspace = true
-
 [target.'cfg(any(target_os = "windows", not(target_arch = "x86_64")))'.dependencies]
 keccak.workspace = true
 
@@ -44,3 +41,6 @@ harness = false
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(fuzzing)'] }
+
+[features]
+no-asm = ["keccak"]

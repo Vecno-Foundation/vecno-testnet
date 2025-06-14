@@ -41,10 +41,6 @@ pub enum DatabaseStorePrefixes {
     ReachabilityTreeChildren = 30,
     ReachabilityFutureCoveringSet = 31,
 
-    // ---- Ghostdag Proof
-    TempGhostdag = 40,
-    TempGhostdagCompact = 41,
-
     // ---- Metadata ----
     MultiConsensusMetadata = 124,
     ConsensusEntries = 125,
@@ -99,8 +95,8 @@ mod tests {
         let prefix = DatabaseStorePrefixes::AcceptanceData;
         assert_eq!(&[prefix as u8], prefix.as_ref());
         assert_eq!(
-            size_of::<u8>(),
-            size_of::<DatabaseStorePrefixes>(),
+            std::mem::size_of::<u8>(),
+            std::mem::size_of::<DatabaseStorePrefixes>(),
             "DatabaseStorePrefixes is expected to have the same memory layout of u8"
         );
     }

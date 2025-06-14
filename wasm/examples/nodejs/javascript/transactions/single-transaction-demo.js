@@ -73,13 +73,7 @@ const { networkId, encoding } = require("../utils").parseArgs();
 
         const changeAddress = address;
         console.log("changeAddress:", changeAddress)
-        
-        // utxo_entry_source: IUtxoEntry[], 
-        // outputs: IPaymentOutput[], 
-        // priority_fee: bigint, 
-        // payload: HexString | Uint8Array, 
-        // sig_op_count?: number
-        const tx = createTransaction(utxos, outputs, 0n, "", 1);
+        const tx = createTransaction(utxos, outputs, changeAddress, 0n, 0, 1, 1);
 
 
         console.info("Transaction before signing:", tx);

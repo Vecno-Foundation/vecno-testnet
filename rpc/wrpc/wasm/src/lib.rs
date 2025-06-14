@@ -1,7 +1,3 @@
-//!
-//! WASM bindings for the [Rusty Vecno p2p Node wRPC Client](vecno-wrpc-client)
-//!
-
 #![allow(unused_imports)]
 
 use cfg_if::cfg_if;

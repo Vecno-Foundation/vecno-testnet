@@ -1,4 +1,7 @@
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
+use std::{
+    mem::size_of,
+    net::{IpAddr, Ipv4Addr, Ipv6Addr},
+};
 
 use super::error::ConversionError;
 use crate::pb as protowire;

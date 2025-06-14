@@ -8,7 +8,7 @@ const vecno = require('../../../../nodejs/vecno');
 const {
     Wallet, setDefaultStorageFolder,
     AccountKind, Mnemonic, Resolver,
-    vecnoTOSompi,
+    vecnoToSompi,
     sompiToVecnoString,
     Address
 } = vecno;
@@ -232,10 +232,10 @@ setDefaultStorageFolder(storageFolder);
         let sendResult = await wallet.accountsSend({
             walletSecret,
             accountId: firstAccount.accountId,
-            priorityFeeSompi: vecnoTOSompi("0.001"),
+            priorityFeeSompi: vecnoToSompi("0.001"),
             destination:[{
                 address: firstAccount.changeAddress,
-                amount: vecnoTOSompi("1.5")
+                amount: vecnoToSompi("1.5")
             }]
         });
         console.log("sendResult", sendResult);
@@ -245,7 +245,7 @@ setDefaultStorageFolder(storageFolder);
             walletSecret,
             sourceAccountId: firstAccount.accountId,
             destinationAccountId: firstAccount.accountId,
-            transferAmountSompi: vecnoTOSompi("2.4"),
+            transferAmountSompi: vecnoToSompi("2.4"),
         });
         console.log("transferResult", transferResult);
 

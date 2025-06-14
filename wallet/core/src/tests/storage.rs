@@ -20,11 +20,11 @@ where
     }
 
     pub fn validate(&self) -> Result<T> {
-        let bytes = borsh::to_vec(self)?;
+        let bytes = self.try_to_vec()?;
         let transform = Self::try_from_slice(bytes.as_slice())?;
         assert_eq!(transform.before, 0xdeadbeef);
         assert_eq!(transform.after, 0xbaadf00d);
-        let transform_bytes = borsh::to_vec(&transform)?;
+        let transform_bytes = transform.try_to_vec()?;
         assert_eq!(bytes, transform_bytes);
         Ok(transform.storable)
     }

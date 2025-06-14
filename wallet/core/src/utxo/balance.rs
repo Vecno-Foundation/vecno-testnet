@@ -10,7 +10,6 @@ pub enum DeltaStyle {
 }
 
 #[derive(Default, Debug, Clone, Serialize, Deserialize, BorshSerialize, BorshDeserialize)]
-#[borsh(use_discriminant = true)]
 pub enum Delta {
     #[default]
     NoChange = 0,

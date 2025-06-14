@@ -10,12 +10,8 @@ impl Reload {
         // workflow_dom::utils::window().location().reload().ok();
 
         let ctx = ctx.clone().downcast_arc::<VecnoCli>()?;
-
-        let guard = ctx.wallet().guard();
-        let guard = guard.lock().await;
-
         tprintln!(ctx, "{}", style("reloading wallet ...").magenta());
-        ctx.wallet().reload(true, &guard).await?;
+        ctx.wallet().reload(true).await?;
 
         Ok(())
     }

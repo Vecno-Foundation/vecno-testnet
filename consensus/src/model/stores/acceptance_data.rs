@@ -1,6 +1,7 @@
 use rocksdb::WriteBatch;
 use serde::Deserialize;
 use serde::Serialize;
+use std::mem::size_of;
 use std::sync::Arc;
 use vecno_consensus_core::acceptance_data::AcceptanceData;
 use vecno_consensus_core::acceptance_data::AcceptedTxEntry;

@@ -302,4 +302,8 @@ impl Pool for OrphanPool {
     fn chained(&self) -> &TransactionsEdges {
         &self.chained_orphans
     }
+
+    fn get_mut(&mut self, transaction_id: &TransactionId) -> Option<&mut MempoolTransaction> {
+        self.all_orphans.get_mut(transaction_id)
+    }
 }

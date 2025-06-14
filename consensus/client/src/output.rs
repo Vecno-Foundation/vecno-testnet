@@ -1,9 +1,3 @@
-//!
-//! Implementation of the client-side [`TransactionOutput`] used by the [`Transaction`] struct.
-//!
-
-#![allow(non_snake_case)]
-
 use crate::imports::*;
 
 #[wasm_bindgen(typescript_custom_section)]
@@ -15,7 +9,7 @@ const TS_TRANSACTION_OUTPUT: &'static str = r#"
  */
 export interface ITransactionOutput {
     value: bigint;
-    scriptPublicKey: IScriptPublicKey | HexString;
+    scriptPublicKey: IScriptPublicKey;
 
     /** Optional verbose data provided by RPC */
     verboseData?: ITransactionOutputVerboseData;
@@ -32,23 +26,6 @@ export interface ITransactionOutputVerboseData {
 }
 "#;
 
-#[wasm_bindgen]
-extern "C" {
-    /// WASM (TypeScript) type representing `ITransactionOutput | TransactionOutput`
-    /// @category Consensus
-    #[wasm_bindgen(typescript_type = "ITransactionOutput | TransactionOutput")]
-    pub type TransactionOutputT;
-    /// WASM (TypeScript) type representing `ITransactionOutput[] | TransactionOutput[]`
-    /// @category Consensus
-    #[wasm_bindgen(typescript_type = "(ITransactionOutput | TransactionOutput)[]")]
-    pub type TransactionOutputArrayAsArgT;
-    /// WASM (TypeScript) type representing `TransactionOutput[]`
-    /// @category Consensus
-    #[wasm_bindgen(typescript_type = "TransactionOutput[]")]
-    pub type TransactionOutputArrayAsResultT;
-}
-
-/// Inner type used by [`TransactionOutput`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TransactionOutputInner {
@@ -56,7 +33,6 @@ pub struct TransactionOutputInner {
     pub script_public_key: ScriptPublicKey,
 }
 
-/// Represents a Vecnod transaction output
 /// @category Consensus
 #[derive(Clone, Debug, Serialize, Deserialize, CastFromJs)]
 #[serde(rename_all = "camelCase")]
@@ -78,7 +54,7 @@ impl TransactionOutput {
         self.inner.lock().unwrap()
     }
 
-    pub fn script_public_key_length(&self) -> usize {
+    pub fn script_length(&self) -> usize {
         self.inner().script_public_key.script().len()
     }
 }
@@ -92,7 +68,7 @@ impl TransactionOutput {
     }
 
     #[wasm_bindgen(getter, js_name = value)]
-    pub fn value(&self) -> u64 {
+    pub fn get_value(&self) -> u64 {
         self.inner().value
     }
 
@@ -137,20 +113,25 @@ impl From<&TransactionOutput> for cctx::TransactionOutput {
     }
 }
 
-impl TryCastFromJs for TransactionOutput {
+impl TryFrom<&JsValue> for TransactionOutput {
     type Error = Error;
-    fn try_cast_from<'a, R>(value: &'a R) -> std::result::Result<Cast<'a, Self>, Self::Error>
-    where
-        R: AsRef<JsValue> + 'a,
-    {
-        Self::resolve_cast(value, || {
-            if let Some(object) = Object::try_from(value.as_ref()) {
-                let value = object.get_u64("value")?;
-                let script_public_key = ScriptPublicKey::try_owned_from(object.get_value("scriptPublicKey")?)?;
-                Ok(TransactionOutput::new(value, script_public_key).into())
-            } else {
-                Err("TransactionInput must be an object".into())
-            }
-        })
+    fn try_from(js_value: &JsValue) -> Result<Self, Self::Error> {
+        // workflow_log::log_trace!("js_value->TransactionOutput: {js_value:?}");
+        if let Some(object) = Object::try_from(js_value) {
+            let has_address = Object::has_own(object, &JsValue::from("address"));
+            workflow_log::log_trace!("js_value->TransactionOutput: has_address:{has_address:?}");
+            let value = object.get_u64("value")?;
+            let script_public_key = ScriptPublicKey::try_cast_from(object.get_value("scriptPublicKey")?)?;
+            Ok(TransactionOutput::new(value, script_public_key.into_owned()))
+        } else {
+            Err("TransactionInput must be an object".into())
+        }
+    }
+}
+
+impl TryFrom<JsValue> for TransactionOutput {
+    type Error = Error;
+    fn try_from(js_value: JsValue) -> Result<Self, Self::Error> {
+        Self::try_from(&js_value)
     }
 }
