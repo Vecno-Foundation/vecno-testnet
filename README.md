@@ -2,7 +2,7 @@
 
 Vecno Testnet node built on rust, based on [rusty-kaspa](https://github.com/kaspanet/rusty-kaspa).
 
-For a detailed guide how to create a wallet and mine on testnet see the [Testnet Guide](docs\TESTNET-GUIDE.md).
+For a detailed guide how to create a wallet and mine on testnet see the [Testnet Guide](https://github.com/Vecno-Foundation/vecno-testnet/blob/main/docs/TESTNET-GUIDE.md).
 
 ## Installation
 
