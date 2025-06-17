@@ -1,3 +1,4 @@
+
 # **Vecno Mainnet Setup Guide (Used as Testnet)**
 
 This guide provides step-by-step instructions for setting up a Vecno Wallet, running a Vecno Node, compiling the Vecno Miner, and mining on the Vecno Mainnet (used as Testnet). Follow these steps carefully for a smooth and secure experience.
